@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <bupt.com.travelandroid.DesiginView.BackTitle
+        android:id="@+id/bt_title"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        app:drawable_back="@drawable/back"
+        app:title="注册"
+        >
+    </bupt.com.travelandroid.DesiginView.BackTitle>
+
+    <TextView
+        android:id="@+id/tv_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/mgreen"
+        android:textSize="36sp"
+        android:text="欢迎加入xxxx"
+        android:layout_gravity="center"
+        android:layout_marginTop="55dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/bt_title"
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_welcome"
+        android:layout_marginTop="38dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        >
+        <bupt.com.travelandroid.DesiginView.EditTextPlus
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hint="手机号"
+            app:drawable_left="@drawable/phone"
+            android:layout_marginTop="20dp"
+            android:id="@+id/etp_phone"
+            >
+        </bupt.com.travelandroid.DesiginView.EditTextPlus>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#9B9B9B"
+            />
+
+        <bupt.com.travelandroid.DesiginView.EditTextPlus
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hint="密码(最少六位)"
+            app:drawable_left="@drawable/password"
+            android:layout_marginTop="20dp"
+            android:id="@+id/etp_password"
+            >
+        </bupt.com.travelandroid.DesiginView.EditTextPlus>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#9B9B9B"
+            />
+        <bupt.com.travelandroid.DesiginView.EditTextPlus
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hint="昵称"
+            app:drawable_left="@drawable/account"
+            android:layout_marginTop="20dp"
+            android:id="@+id/etp_account"
+            >
+        </bupt.com.travelandroid.DesiginView.EditTextPlus>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#9B9B9B"
+            />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下一步"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:background="@drawable/circle_rectangle_mgreen"
+        android:layout_below="@id/ll_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="12dp"
+        android:id="@+id/bt_next_step"
+        />
+    <include layout="@layout/main_bottom"></include>
+</RelativeLayout>

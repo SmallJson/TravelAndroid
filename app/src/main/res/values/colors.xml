@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <!--主页背景颜色-->
+    <color name="homeBackground">#ffffff</color>
+    <!--常用绿色-->
+    <color name="mgreen">#04C81A</color>
+    <!--常用灰色-->
+    <color name="mgray">#9B9B9B</color>
+</resources>
