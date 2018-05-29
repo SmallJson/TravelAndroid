@@ -30,6 +30,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        super.initView();
         backTitle = (BackTitle) findViewById(R.id.bt_title);
         btNextStep = (Button) findViewById(R.id.bt_next_step);
     }

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2">
+    <RelativeLayout
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="91dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:background="@drawable/circle_rectangle_white_inner"
+        >
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/header"
+            android:layout_margin="16dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/tv_header"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="iiii"
+            android:textSize="18sp"
+            android:textColor="#101010"
+            android:layout_toRightOf="@id/tv_header"
+            android:layout_marginTop="9dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/tv_name"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_header"
+            android:layout_below="@id/tv_name"
+            android:layout_marginLeft="20dp"
+            android:text="手机号:136913223016"
+            android:textColor="#101010"
+            android:layout_marginTop="15dp"
+            android:id="@+id/tv_phone"
+            />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        >
+     <!--   <bupt.com.travelandroid.DesiginView.MeItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:MeItem_drawable_left="@drawable/xingcheng_active"
+            app:dec="行程"
+            app:MeItem_drawable_right="@drawable/arrow_right"
+            android:id="@+id/item_xingcheng"
+            >
+        </bupt.com.travelandroid.DesiginView.MeItem>
+
+        <bupt.com.travelandroid.DesiginView.MeItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:MeItem_drawable_left="@drawable/picture"
+            app:dec="相册"
+            app:MeItem_drawable_right="@drawable/arrow_right"
+            android:id="@+id/item_picture"
+            android:layout_marginTop="23dp"
+            >
+        </bupt.com.travelandroid.DesiginView.MeItem>
+
+        <bupt.com.travelandroid.DesiginView.MeItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="46dp"
+            app:MeItem_drawable_left="@drawable/collect"
+            app:dec="收藏"
+            app:MeItem_drawable_right="@drawable/arrow_right"
+            android:id="@+id/item_collect"
+
+            >
+        </bupt.com.travelandroid.DesiginView.MeItem>
+
+        <bupt.com.travelandroid.DesiginView.MeItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:MeItem_drawable_left="@drawable/setting"
+            app:dec="设置"
+            app:MeItem_drawable_right="@drawable/arrow_right"
+            android:id="@+id/item_setting"
+            android:layout_marginTop="89dp"
+            >
+        </bupt.com.travelandroid.DesiginView.MeItem>-->
+        <include layout="@layout/me_item_xingcheng">
+        </include>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#efefef"
+            />
+        <include layout="@layout/me_item_xiangce">
+        </include>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#efefef"
+            />
+        <include layout="@layout/me_item_collect">
+        </include>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#efefef"
+            />
+        <include layout="@layout/me_item_setting">
+        </include>
+    </LinearLayout>
+</LinearLayout>

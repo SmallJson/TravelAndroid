@@ -4,16 +4,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <bupt.com.travelandroid.DesiginView.BackTitle
+    android:layout_height="match_parent"
+    android:background="@color/homeBackground"
+    >
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="手机号登录"
-        app:drawable_back="@drawable/back"
-        android:id="@+id/bt_title"
+        android:background="@color/toolbar"
+        android:id="@+id/abl_bar"
+        android:fitsSystemWindows="true"
         >
-    </bupt.com.travelandroid.DesiginView.BackTitle>
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tl_bar"
+            >
+            <bupt.com.travelandroid.DesiginView.BackTitle
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="手机号登录"
+                app:drawable_back="@drawable/back"
+                android:id="@+id/bt_title"
+                android:fitsSystemWindows="true"
+                >
+            </bupt.com.travelandroid.DesiginView.BackTitle>
+        </android.support.v7.widget.Toolbar>
 
+    </android.support.design.widget.AppBarLayout>
     <TextView
         android:id="@+id/tv_welcome"
         android:layout_width="wrap_content"
@@ -24,9 +41,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="55dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/bt_title"
+        android:layout_below="@id/abl_bar"
         />
-
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/ll_content"

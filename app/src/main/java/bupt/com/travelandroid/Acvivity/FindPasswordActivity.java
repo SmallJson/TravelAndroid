@@ -31,6 +31,7 @@ public class FindPasswordActivity extends  BaseActivity {
 
     @Override
     public void initView() {
+        super.initView();
         backTitle = (BackTitle) findViewById(R.id.bt_title);
         etpCode = (EditTextPlus) findViewById(R.id.etp_code);
         etpPhone = (EditTextPlus) findViewById(R.id.etp_phone);

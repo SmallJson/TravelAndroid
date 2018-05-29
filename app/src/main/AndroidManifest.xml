@@ -18,7 +18,17 @@
         <activity android:name=".Acvivity.LoginActivity"></activity>
         <activity android:name=".Acvivity.RegisterMessageActivity"></activity>
         <activity android:name=".Acvivity.FindPasswordActivity"></activity>
-        <activity android:name=".Acvivity.ResetPasswordActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+        <activity android:name=".Acvivity.ResetPasswordActivity"></activity>
+        <activity android:name=".Acvivity.HomeActivity"></activity>
+        <activity android:name=".Acvivity.MakingTraveActivity"></activity>
+        <activity android:name=".Acvivity.TravelListActivity"></activity>
+        <activity android:name=".Acvivity.DetailTravelActivity"></activity>
+        <activity android:name=".Acvivity.TrafficActivity"></activity>
+        <activity android:name=".Acvivity.PlaceActivity"></activity>
+        <activity android:name=".Acvivity.ReturantActivity"></activity>
+        <activity android:name=".Acvivity.HouseActivity"></activity>
+        <activity android:name=".Acvivity.NoteActivity"></activity>
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data
             android:name="com.google.android.gms.version"

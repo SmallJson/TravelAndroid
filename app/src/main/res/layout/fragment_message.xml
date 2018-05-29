@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/circle_rectangle_search"
+            />
+        <EditText
+            android:layout_width="345dp"
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:hint="搜索"
+            android:gravity="center"
+            android:textColorHint="@color/mgray"
+            android:background="@drawable/circle_rectangle_white_inner"
+            />
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rlv_message"
+        >
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

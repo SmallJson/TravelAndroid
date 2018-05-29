@@ -29,6 +29,8 @@ public class RegisterMessageActivity extends  BaseActivity {
 
     @Override
     public void initView() {
+        super.initView();
+
         backTitle = (BackTitle) findViewById(R.id.bt_title);
         backTitle.setLeftClick(new View.OnClickListener() {
             @Override

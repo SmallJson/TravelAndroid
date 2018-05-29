@@ -25,6 +25,8 @@
             android:layout_gravity="center_vertical"
             android:textSize="14sp"
             android:background="@null"
+            android:textColor="@color/mgray"
+            android:textColorHint="@color/mgray"
             />
     </LinearLayout>
 

@@ -29,6 +29,8 @@ public class ResetPasswordActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        super.initView();
+
         backTitle = (BackTitle) findViewById(R.id.bt_title);
         etpPassword = (EditTextPlus) findViewById(R.id.etp_password);
         btConfirm = (Button) findViewById(R.id.bt_confirm);

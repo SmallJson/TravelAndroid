@@ -4,15 +4,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <bupt.com.travelandroid.DesiginView.BackTitle
-        android:id="@id/bt_title"
+    android:layout_height="match_parent"
+    android:background="@color/homeBackground"
+    >
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:drawable_back="@drawable/back"
-        app:title="注册"
+        android:background="@color/toolbar"
+        android:fitsSystemWindows="true"
+        android:id="@id/abl_bar"
         >
-    </bupt.com.travelandroid.DesiginView.BackTitle>
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tl_bar"
+            >
+            <bupt.com.travelandroid.DesiginView.BackTitle
+                android:id="@id/bt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:drawable_back="@drawable/back"
+                app:title="注册"
+                android:fitsSystemWindows="true"
+                >
+            </bupt.com.travelandroid.DesiginView.BackTitle>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:orientation="vertical"
@@ -21,6 +39,7 @@
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
         android:id="@+id/ll_content"
+        android:layout_marginTop="20dp"
         >
         <bupt.com.travelandroid.DesiginView.EditTextPlus
             android:layout_width="match_parent"

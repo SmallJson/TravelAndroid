@@ -9,4 +9,6 @@
     <color name="mgreen">#04C81A</color>
     <!--常用灰色-->
     <color name="mgray">#9B9B9B</color>
+    <!--常用灰色-->
+    <color name="toolbar">#ffffff</color>
 </resources>

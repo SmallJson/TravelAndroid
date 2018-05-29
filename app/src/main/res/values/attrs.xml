@@ -13,4 +13,9 @@
         <attr name="line" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="MeItem">
+        <attr name="dec" format="string"/>
+        <attr name="MeItem_drawable_left" format="reference"/>
+        <attr name="MeItem_drawable_right" format="reference"/>
+    </declare-styleable>
 </resources>
