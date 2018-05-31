@@ -15,6 +15,7 @@ import bupt.com.travelandroid.R;
 
 /**
  * Created by tuyin on 2018/5/18 0018.
+ * //带有返回键的标题栏
  */
 
 public class BackTitle extends LinearLayout{

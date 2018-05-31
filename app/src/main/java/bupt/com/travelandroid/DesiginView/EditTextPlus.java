@@ -18,6 +18,7 @@ import bupt.com.travelandroid.R;
 
 /**
  * Created by Administrator on 2018/5/18 0018.
+ * 登录注册页面的输入框
  */
 
 public class EditTextPlus extends LinearLayout{

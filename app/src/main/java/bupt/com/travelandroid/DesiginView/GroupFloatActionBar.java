@@ -14,6 +14,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 /**
  * Created by Administrator on 2018/5/28 0028.
+ * 伸缩FloatingActionBar
  */
 
 public class GroupFloatActionBar  extends ViewGroup{

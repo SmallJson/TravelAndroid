@@ -1,10 +1,12 @@
 package bupt.com.travelandroid.Bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2018/5/28 0028.
- * 消息实体
+ * 通知实体bean
  */
-public class MessageBean {
+public class MessageBean implements Serializable {
     public String leftUrl;
     public String messageTitle;
     public String messageTime;

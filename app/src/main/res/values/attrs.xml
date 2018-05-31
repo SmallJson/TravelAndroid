@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="BackTitle">
 
+    <declare-styleable name="BackTitle">
         <attr name="title" format="string"/>
         <attr name="drawable_back" format="reference"/>
     </declare-styleable>
@@ -17,5 +17,14 @@
         <attr name="dec" format="string"/>
         <attr name="MeItem_drawable_left" format="reference"/>
         <attr name="MeItem_drawable_right" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="DetailItemOne">
+        <attr name="detail_one_title" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="DetailDayItem">
+        <attr name="detailDay_icon" format="reference"/>
+        <attr name="detailDay_title" format="string"/>
     </declare-styleable>
 </resources>

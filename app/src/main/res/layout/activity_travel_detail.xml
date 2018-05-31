@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/toolbar"
         android:fitsSystemWindows="true"
+        android:id="@+id/abl_bar"
         >
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
@@ -41,15 +42,70 @@
                     />
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
-
     </android.support.design.widget.AppBarLayout>
-    <!--<android.support.design.widget.FloatingActionButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/abl_bar"
+        android:layout_marginLeft="37dp"
+        android:layout_marginRight="37dp"
+        android:layout_marginTop="25dp"
+        android:id="@+id/ll_content"
+        >
+        <bupt.com.travelandroid.DesiginView.TrafficDayItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/traffic_item">
+        </bupt.com.travelandroid.DesiginView.TrafficDayItem>
 
-        android:backgroundTint="@color/mgreen"
-        android:src="@drawable/add_white"
-        />-->
+        <bupt.com.travelandroid.DesiginView.DetailDayItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ddi_place"
+            app:detailDay_icon="@drawable/place_grern"
+            app:detailDay_title="天安门"
+            android:layout_marginTop="27dp"
+            android:visibility="gone"
+            >
+        </bupt.com.travelandroid.DesiginView.DetailDayItem>
+
+        <bupt.com.travelandroid.DesiginView.DetailDayItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ddi_returant"
+            app:detailDay_icon="@drawable/eat_green"
+            app:detailDay_title="海底捞"
+            android:layout_marginTop="27dp"
+            android:visibility="gone"
+            >
+        </bupt.com.travelandroid.DesiginView.DetailDayItem>
+
+        <bupt.com.travelandroid.DesiginView.DetailDayItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ddi_house"
+            app:detailDay_icon="@drawable/sleeping_green"
+            app:detailDay_title="北邮科技酒店"
+            android:layout_marginTop="27dp"
+            android:visibility="gone"
+            >
+        </bupt.com.travelandroid.DesiginView.DetailDayItem>
+
+        <bupt.com.travelandroid.DesiginView.DetailDayItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ddi_note"
+            app:detailDay_icon="@drawable/note_green"
+            app:detailDay_title="备注"
+            android:layout_marginTop="27dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            >
+        </bupt.com.travelandroid.DesiginView.DetailDayItem>
+    </LinearLayout>
     <bupt.com.travelandroid.DesiginView.GroupFloatActionBar
         android:translationZ="10dp"
         android:id="@+id/viewGroup"
@@ -75,7 +131,7 @@
             />
 
         <android.support.design.widget.FloatingActionButton
-            android:src="@drawable/position"
+            android:src="@drawable/place"
             android:backgroundTint="@color/mgreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,7 +152,7 @@
             android:id="@+id/fab_slepping"
             />
         <android.support.design.widget.FloatingActionButton
-            android:src="@drawable/beizhu"
+            android:src="@drawable/note"
             android:backgroundTint="@color/mgreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

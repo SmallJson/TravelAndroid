@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/homeBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -11,10 +14,10 @@
         android:fitsSystemWindows="true"
         >
         <android.support.v7.widget.Toolbar
+            android:fitsSystemWindows="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tl_bar"
-            android:fitsSystemWindows="true"
             >
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -40,5 +43,41 @@
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+
+    <bupt.com.travelandroid.DesiginView.DetailItemOne
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
+        android:layout_marginTop="40dp"
+        app:detail_one_title="地点名称"
+        android:id="@+id/dio_place_name"
+        >
+    </bupt.com.travelandroid.DesiginView.DetailItemOne>
+
+    <bupt.com.travelandroid.DesiginView.DetailItemOne
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
+        android:layout_marginTop="40dp"
+        app:detail_one_title="游玩时间"
+        android:id="@+id/dio_play_time"
+        >
+    </bupt.com.travelandroid.DesiginView.DetailItemOne>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:background="@drawable/circle_rectangle_mgreen"
+        android:layout_below="@id/ll_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/bt_confirm"
+        />
 
 </LinearLayout>

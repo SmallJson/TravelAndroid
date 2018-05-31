@@ -17,6 +17,8 @@ public class NoteActivity extends  BaseDetailActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
+        initData();
+        initView();
     }
 
     @Override

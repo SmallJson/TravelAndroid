@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--交通，地点，餐饮，酒店，备注等页面的通用组件-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_title"
+        android:textColor="@color/mgray"
+        android:text="车次/航班号"
+        android:textSize="18sp"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:id="@+id/et_content"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/mgray">
+    </View>
+</LinearLayout>

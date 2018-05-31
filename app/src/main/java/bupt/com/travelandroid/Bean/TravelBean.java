@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Administrator on 2018/5/28 0028.
- * 用来在Activity之中传递数据
+ * 行程信息实体bean
  */
 public class TravelBean implements Serializable{
     //旅行名称

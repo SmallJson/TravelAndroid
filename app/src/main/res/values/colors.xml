@@ -11,4 +11,5 @@
     <color name="mgray">#9B9B9B</color>
     <!--常用灰色-->
     <color name="toolbar">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>
