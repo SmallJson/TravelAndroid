@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -143,5 +145,21 @@ public class EditTextPlus extends LinearLayout{
             tvRight.setTextColor(color);
         }
     }
+    /**
+     * 设置输入框的输入限制
+     */
+    public void setInputType(int type){
+      /*  if(type == InputType.TYPE_TEXT_VARIATION_PASSWORD){
+            //设置隐藏密码
+            editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }*/
+        editText.setInputType(type);
+    }
 
+    /**
+     * 设置输入框内容
+     */
+    public  void setContent(String content){
+        editText.setText(content);
+    }
 }

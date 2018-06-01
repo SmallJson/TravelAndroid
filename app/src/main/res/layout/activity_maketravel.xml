@@ -85,7 +85,7 @@
             android:layout_marginLeft="33dp"
             android:textColor="#101010"
             android:layout_gravity="center_vertical"
-            android:hint="旅行不能为空"
+            android:hint="城市名不能为空"
             android:textColorHint="#cccccc"
             android:id="@+id/et_city"
             />
@@ -110,7 +110,7 @@
             android:layout_marginLeft="33dp"
             android:textColor="#101010"
             android:layout_gravity="center_vertical"
-            android:hint="旅行天数不能为空"
+            android:hint="天数需要为整数"
             android:textColorHint="#cccccc"
             android:id="@+id/et_data"
             />

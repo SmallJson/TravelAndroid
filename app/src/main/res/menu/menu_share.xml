@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <item
+            android:id="@+id/toolbar_parent"
+            android:title="发送给亲属"
+            android:icon="@drawable/parent"
+            android:orderInCategory="0"
+            app:actionViewClass="android.support.v7.widget.SearchView"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/toolbar_weixin"
+            android:icon="@drawable/pengyouquan"
+            android:orderInCategory="1"
+            android:title="分享到朋友圈"
+            app:showAsAction="never" />
+    </menu>

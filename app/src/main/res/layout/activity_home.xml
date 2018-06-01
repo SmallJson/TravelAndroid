@@ -48,7 +48,6 @@
                     android:background="@drawable/add"
                     android:layout_marginRight="15dp"
                     android:layout_centerVertical="true"
-
                     />
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>

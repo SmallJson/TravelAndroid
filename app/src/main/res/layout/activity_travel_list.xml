@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/homeBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_root"
     >
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -37,7 +38,7 @@
                     android:textSize="22sp"
                     android:textColor="#101010"
                     />
-                <ImageView
+                  <ImageButton
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:background="@drawable/share"

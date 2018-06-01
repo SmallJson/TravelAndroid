@@ -1,19 +1,16 @@
-package bupt.com.travelandroid;
+package bupt.com.travelandroid.Acvivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import bupt.com.travelandroid.Acvivity.BaseActivity;
-import bupt.com.travelandroid.Acvivity.LoginActivity;
-import bupt.com.travelandroid.Acvivity.RegisterActivity;
+import bupt.com.travelandroid.R;
 
 public class MainActivity extends BaseActivity {
 
     TextView tvPhoneLogin;
     TextView tvRegister;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +44,5 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
     }
 }

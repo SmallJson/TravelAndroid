@@ -1,12 +1,19 @@
 package bupt.com.travelandroid.Acvivity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,7 +35,9 @@ import bupt.com.travelandroid.R;
 
 public class TravelListActivity extends BaseActivity {
     LinearLayout llContent;
+    LinearLayout llRoot;
     TextView tvTravelName;
+    ImageView ivShare;
     //行程视图
     List<View>  viewList = new ArrayList<View>();
     //每天行程具体信息
@@ -36,8 +45,17 @@ public class TravelListActivity extends BaseActivity {
 
     //行程简要信息
     TravelBean travelBean ;
-    //
+    //行程简要信息 + 每天行程具体信息
     TravelTotalBean travelTotalBean = new TravelTotalBean();
+
+    //popWindow的弹出框设置
+    PopupWindow popMenu;
+    //popWindod对应的视图
+    View menuView;
+    //菜单弹出框的分享给父母的子空间
+    LinearLayout llParent;
+    //菜单弹出框的分享到朋友圈的子控件
+    LinearLayout llWeixin;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,16 +69,27 @@ public class TravelListActivity extends BaseActivity {
         super.initView();
         llContent = (LinearLayout) findViewById(R.id.ll_content);
         tvTravelName = (TextView) findViewById(R.id.tv_travel_name);
+        llRoot = (LinearLayout) findViewById(R.id.ll_root);
 
+        //设置弹出框逻辑
+        initPopMenu();
+        ivShare = (ImageView) findViewById(R.id.iv_share);
+        ivShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    showPopMenu();
+            }
+        });
+
+       //设置旅行的名字
         if(!TextUtils.isEmpty(travelBean.travelName)){
             tvTravelName.setText(travelBean.travelName);
         }else{
             tvTravelName.setText("默认");
         }
 
-        //为空的情况下，默认显示六天
+        //设置旅行天数
         travelBean.dataCount = TextUtils.isEmpty(travelBean.dataCount)?"6":travelBean.dataCount;
-
         if(travelBean.dataCount != null){
             int count = Integer.parseInt(travelBean.dataCount);
             for(int i = 0 ;i< count;i++){
@@ -152,13 +181,49 @@ public class TravelListActivity extends BaseActivity {
         }
     }
 
-
     //当前activity消失不见的时候，
-    //将页面当前输入保存到数据库当中
+    //将页面当前输入保存到本地Sqlite数据库当中
     @Override
     protected void onStop() {
         travelTotalBean.setTravelDayMap(dayMap);
         //save()将当前数据保存到数据库。
         super.onStop();
+    }
+
+    public void showPopMenu(){
+        if(!popMenu.isShowing()){
+            int height = mToolBar.getHeight();
+            popMenu.showAtLocation(llRoot, Gravity.RIGHT|Gravity.TOP,20,height);
+        }else{
+            popMenu.dismiss();
+        }
+    }
+
+    public void initPopMenu(){
+        menuView = LayoutInflater.from(mContext).inflate(R.layout.menu_share_layout, null);
+        //在View上捕获到空间
+        llParent = (LinearLayout) menuView.findViewById(R.id.ll_parent);
+        llWeixin  = (LinearLayout) menuView.findViewById(R.id.ll_weixin);
+        //跳转到分享亲属
+        llParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        //分享到朋友圈
+        llWeixin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        popMenu = new PopupWindow(menuView, LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT);
+        //点击popWindows外让其消失
+        popMenu.setOutsideTouchable(false);
+        popMenu.setBackgroundDrawable(new ColorDrawable());
+
     }
 }

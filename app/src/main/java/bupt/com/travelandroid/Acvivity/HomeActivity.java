@@ -5,9 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.Gravity;
-import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -19,7 +16,6 @@ import java.util.ArrayList;
 import bupt.com.travelandroid.Fragment.MeFragment;
 import bupt.com.travelandroid.Fragment.MessageFragment;
 import bupt.com.travelandroid.Fragment.XingchengFragment;
-import bupt.com.travelandroid.MainActivity;
 import bupt.com.travelandroid.R;
 
 /**
