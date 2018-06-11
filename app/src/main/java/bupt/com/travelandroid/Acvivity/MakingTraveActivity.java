@@ -58,7 +58,8 @@ public class MakingTraveActivity extends BaseActivity{
         etEdTime.setInputType(InputType.TYPE_DATETIME_VARIATION_DATE);
         //输入框静止开启软键盘
         etEdTime.setInputType(InputType.TYPE_NULL);
-
+        //禁止输入框输入
+        etEdTime.setFocusable(false);
         //点击弹出时间选择框按钮
         etEdTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +91,7 @@ public class MakingTraveActivity extends BaseActivity{
                     Intent intent = new Intent(mContext,TravelListActivity.class);
                     intent.putExtra("travel",travelBean);
                     startActivity(intent);
+                    finish();
             }
         });
     }

@@ -1,10 +1,19 @@
 package bupt.com.travelandroid.Acvivity;
 
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -17,6 +26,7 @@ import bupt.com.travelandroid.Fragment.MeFragment;
 import bupt.com.travelandroid.Fragment.MessageFragment;
 import bupt.com.travelandroid.Fragment.XingchengFragment;
 import bupt.com.travelandroid.R;
+import bupt.com.travelandroid.util.DpUtil;
 
 /**
  * Created by Administrator on 2018/5/27 0027.
@@ -26,10 +36,23 @@ public class HomeActivity extends  BaseActivity {
     private BottomNavigationBar mBottomNavigationBar;
     private TextBadgeItem mTextBadgeItem;
     private ShapeBadgeItem mShapeBadgeItem;
+    private RelativeLayout llRoot;
+    private ImageView ivParent;
+
 
     private final int xingcheng_fragment_index = 0;
     private final int message_fragment_index = 1;
     private final int me_fragment_index = 2;
+
+    //菜单弹出框
+    //popWindow的弹出框设置
+    PopupWindow popMenu;
+    //popWindod对应的视图
+    View menuView;
+    //菜单弹出框中添加父母的子控件
+    LinearLayout llParent;
+
+
 
     //保存所有的Fragment
     ArrayList<Fragment> fragmentList = new ArrayList<>();
@@ -47,8 +70,17 @@ public class HomeActivity extends  BaseActivity {
     @Override
     public void initView() {
         super.initView();
+        llRoot = (RelativeLayout) findViewById(R.id.ll_root);
         initNavigationBar();
         initFragment();
+        initPopMenu();
+        ivParent  = (ImageView) findViewById(R.id.iv_add);
+        ivParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showOrDismissPopMenu();
+            }
+        });
     }
 
     @Override
@@ -148,4 +180,34 @@ public class HomeActivity extends  BaseActivity {
             curFragment = fragmentList.get(postion);
         }
     }
+
+    public void showOrDismissPopMenu(){
+        if(!popMenu.isShowing()){
+            int height = mToolBar.getHeight();
+            popMenu.showAtLocation(llRoot, Gravity.RIGHT|Gravity.TOP,20,height);
+        }else{
+            popMenu.dismiss();
+        }
+    }
+
+    public void initPopMenu(){
+        menuView = LayoutInflater.from(mContext).inflate(R.layout.menu_addparent_layout, null);
+        //在View上捕获到空间
+        llParent = (LinearLayout) menuView.findViewById(R.id.ll_parent);
+        //跳转到分享亲属
+        llParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(new Intent(mContext, AddRelationActivity.class));
+                showOrDismissPopMenu();
+            }
+        });
+
+        popMenu = new PopupWindow(menuView, DpUtil.dp2px(mContext,210),LinearLayout.LayoutParams.WRAP_CONTENT);
+        //点击popWindows外让其消失
+        popMenu.setOutsideTouchable(false);
+        popMenu.setBackgroundDrawable(new ColorDrawable());
+    }
+
+
 }

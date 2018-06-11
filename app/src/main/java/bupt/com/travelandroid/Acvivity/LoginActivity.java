@@ -14,13 +14,16 @@ import android.widget.Button;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import bupt.com.travelandroid.Acvivity.CallBack.IResultCallBack;
 import bupt.com.travelandroid.Acvivity.IView.ILoginView;
 import bupt.com.travelandroid.Acvivity.Presenter.LoginPresenter;
+import bupt.com.travelandroid.Bean.User;
 import bupt.com.travelandroid.DesiginView.BackTitle;
 import bupt.com.travelandroid.DesiginView.EditTextPlus;
 import bupt.com.travelandroid.R;
+import bupt.com.travelandroid.util.ContanApplication;
 import bupt.com.travelandroid.util.SpUtil;
 
 /**
@@ -119,10 +122,14 @@ public class LoginActivity extends  BaseActivity {
                 loginPresenter.login(new IResultCallBack(){
                     @Override
                     public void getData(Map<String, Object> response) {
-                            if((Boolean) response.get("data") == true){
+                            User user = (User)response.get("user");
+                            if( user != null){
                                 //1.将成功登录的账号密码，保存到SharePrefrence中
                                 SpUtil.putString(mContext, "account", etpPhone.getContent());
                                 SpUtil.putString(mContext, "password",etpPassword.getContent());
+                                //1.1保存全局id信息
+                                ContanApplication app = (ContanApplication)getApplication();
+                                app.setUid(user.getUid());
                                 hideDialog();
                                 //2.登录成功跳转
                                 mContext.startActivity(new Intent(mContext,HomeActivity.class));
@@ -132,6 +139,11 @@ public class LoginActivity extends  BaseActivity {
                                 //登录失败提示
                                 Snackbar.make(findViewById(R.id.rl_root),(String)response.get("msg"),Snackbar.LENGTH_SHORT).show();
                             }
+                    }
+                    @Override
+                    public void error(String msg) {
+                        //登录失败提示
+                        Snackbar.make(findViewById(R.id.rl_root),msg,Snackbar.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -143,6 +155,7 @@ public class LoginActivity extends  BaseActivity {
         dialogView = LayoutInflater.from(mContext).inflate(R.layout.loading, null);
         builder.setView(dialogView);
         dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         //改变对话框的大小
      WindowManager.LayoutParams  lp= dialog.getWindow().getAttributes();

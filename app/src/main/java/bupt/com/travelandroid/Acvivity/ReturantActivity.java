@@ -52,7 +52,8 @@ public class ReturantActivity extends  BaseDetailActivity {
     @Override
     public Serializable getResultData() {
         ResBean resBean  = new ResBean();
-        if(TextUtils.isEmpty(dioResName.getContent())){
+        if(TextUtils.isEmpty(dioResName.getContent())
+                || TextUtils.isEmpty(dioResAddress.getContent())){
             return  null;
         }
         resBean.setResName(dioResName.getContent());

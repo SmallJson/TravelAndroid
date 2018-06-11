@@ -10,6 +10,7 @@
         android:icon="@drawable/header"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".util.ContanApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".Acvivity.MainActivity">
             <intent-filter>
@@ -22,7 +23,8 @@
         <activity android:name=".Acvivity.RegisterMessageActivity"></activity>
         <activity android:name=".Acvivity.FindPasswordActivity"></activity>
         <activity android:name=".Acvivity.ResetPasswordActivity"></activity>
-        <activity android:name=".Acvivity.HomeActivity"></activity>
+        <activity android:name=".Acvivity.HomeActivity">
+        </activity>
         <activity android:name=".Acvivity.MakingTraveActivity"></activity>
         <activity android:name=".Acvivity.TravelListActivity"></activity>
         <activity android:name=".Acvivity.TravelDetailActivity"></activity>
@@ -31,6 +33,7 @@
         <activity android:name=".Acvivity.ReturantActivity"></activity>
         <activity android:name=".Acvivity.HouseActivity"></activity>
         <activity android:name=".Acvivity.NoteActivity"></activity>
+        <activity android:name=".Acvivity.AddRelationActivity"></activity>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

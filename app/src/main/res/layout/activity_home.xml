@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/homeBackground"
+    android:id="@+id/ll_root"
     >
 <!--    <bupt.com.travelandroid.DesiginView.BackTitle
         android:layout_width="match_parent"
@@ -48,6 +49,7 @@
                     android:background="@drawable/add"
                     android:layout_marginRight="15dp"
                     android:layout_centerVertical="true"
+                    android:id="@+id/iv_add"
                     />
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>

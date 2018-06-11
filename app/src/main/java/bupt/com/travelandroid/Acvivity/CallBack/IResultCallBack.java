@@ -7,4 +7,5 @@ import java.util.Map;
  */
 public interface IResultCallBack {
     public void  getData(Map<String, Object> response);
+    public void  error(String msg);
 }

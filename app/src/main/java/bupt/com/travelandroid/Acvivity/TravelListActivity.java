@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -19,7 +20,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import bupt.com.travelandroid.Bean.TravelBean;
 import bupt.com.travelandroid.Bean.TravelDayBean;
@@ -27,6 +27,7 @@ import bupt.com.travelandroid.Bean.TravelTotalBean;
 import bupt.com.travelandroid.DesiginView.DetailDayItem;
 import bupt.com.travelandroid.DesiginView.TrafficDayItem;
 import bupt.com.travelandroid.R;
+import bupt.com.travelandroid.util.DpUtil;
 
 /**
  * Created by Administrator on 2018/5/28 0028.
@@ -52,10 +53,24 @@ public class TravelListActivity extends BaseActivity {
     PopupWindow popMenu;
     //popWindod对应的视图
     View menuView;
-    //菜单弹出框的分享给父母的子空间
+    //菜单弹出框中分享给父母的子控件
     LinearLayout llParent;
     //菜单弹出框的分享到朋友圈的子控件
     LinearLayout llWeixin;
+    /**
+     * 分享给父母的对话框
+     */
+    View viewShareParent;
+    AlertDialog parentDialog;
+    PopupWindow parentPopWindow;
+    TextView tvAddParent;
+    Button btCancle;
+    Button btConfirm;
+    //父亲选择框
+    CheckBox cbFather;
+    //母亲选择框
+    CheckBox chMother;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,14 +85,11 @@ public class TravelListActivity extends BaseActivity {
         llContent = (LinearLayout) findViewById(R.id.ll_content);
         tvTravelName = (TextView) findViewById(R.id.tv_travel_name);
         llRoot = (LinearLayout) findViewById(R.id.ll_root);
-
-        //设置弹出框逻辑
-        initPopMenu();
         ivShare = (ImageView) findViewById(R.id.iv_share);
         ivShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    showPopMenu();
+                    showOrDismissPopMenu();
             }
         });
 
@@ -121,7 +133,12 @@ public class TravelListActivity extends BaseActivity {
     @Override
     public void initData() {
         travelBean =  (TravelBean) getIntent().getSerializableExtra("travel");
-        travelTotalBean.setTrafficBean(travelBean);
+        travelTotalBean.setTravelBean(travelBean);
+
+        //初始化弹出菜单
+        initPopMenu();
+        //初始话父母对话框
+        initParentDialog();
     }
 
     @Override
@@ -156,6 +173,7 @@ public class TravelListActivity extends BaseActivity {
         //酒店
         DetailDayItem houseDayItem = (DetailDayItem) view.findViewById(R.id.ddi_house);
         //备注暂无
+
         //2.渲染交通视图
         if(dayBean.getTrafficBean()!=null){
             trafficDayItem.setFlightName(dayBean.getTrafficBean().getFlightName());
@@ -190,7 +208,7 @@ public class TravelListActivity extends BaseActivity {
         super.onStop();
     }
 
-    public void showPopMenu(){
+    public void showOrDismissPopMenu(){
         if(!popMenu.isShowing()){
             int height = mToolBar.getHeight();
             popMenu.showAtLocation(llRoot, Gravity.RIGHT|Gravity.TOP,20,height);
@@ -208,7 +226,8 @@ public class TravelListActivity extends BaseActivity {
         llParent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showOrDismissDialogParent();
+                showOrDismissPopMenu();
             }
         });
         //分享到朋友圈
@@ -219,11 +238,64 @@ public class TravelListActivity extends BaseActivity {
             }
         });
 
-        popMenu = new PopupWindow(menuView, LinearLayout.LayoutParams.WRAP_CONTENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT);
+        popMenu = new PopupWindow(menuView, DpUtil.dp2px(mContext,210),LinearLayout.LayoutParams.WRAP_CONTENT);
         //点击popWindows外让其消失
         popMenu.setOutsideTouchable(false);
         popMenu.setBackgroundDrawable(new ColorDrawable());
+    }
 
+    public  void initParentDialog(){
+
+        viewShareParent = LayoutInflater.from(mContext).inflate(R.layout.view_share_parent,null);
+        //找到View上对应的空间信息
+        tvAddParent = (TextView) viewShareParent.findViewById(R.id.tv_addParent);
+        btCancle = (Button) viewShareParent.findViewById(R.id.bt_cancle);
+        cbFather = (CheckBox) viewShareParent.findViewById(R.id.cb_father);
+        chMother = (CheckBox) viewShareParent.findViewById(R.id.cb_mother);
+
+        btCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(parentDialog.isShowing()){
+                    parentDialog.dismiss();
+                }
+            }
+        });
+        btConfirm = (Button) viewShareParent.findViewById(R.id.bt_confirm);
+        btConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //将当前信息推送到服务单
+                //saveToServer():
+                //isChecked
+            }
+        });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext,R.style.CustomDialog);
+        builder.setView(viewShareParent);
+        parentDialog  = builder.create();
+        //点击外部不消失
+        parentDialog.setCanceledOnTouchOutside(false);
+       /* parentPopWindow = new PopupWindow(viewShareParent,DpUtil.dp2px(mContext,259),DpUtil.dp2px(mContext,218));
+        //点击popWindows外不让其消失
+        popMenu.setOutsideTouchable(true);
+        popMenu.setBackgroundDrawable(new ColorDrawable());*/
+    }
+    public void showOrDismissDialogParent(){
+        if(parentDialog != null){
+               if(parentDialog.isShowing()){
+                   parentDialog.dismiss();
+             }else{
+                   //parentPopWindow.showAtLocation(llRoot,Gravity.CENTER,0,0);
+                   parentDialog.show();
+                   //改变对话框的大小
+                   WindowManager.LayoutParams  lp= parentDialog.getWindow().getAttributes();
+                  /* lp.width=DpUtil.dp2px(mContext,256);//定义宽度
+                   lp.height=DpUtil.dp2px(mContext,218);//定义高度*/
+                   lp.width = DpUtil.dp2px(mContext,259);
+                   lp.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                   parentDialog.getWindow().setAttributes(lp);
+               }
+        }
     }
 }

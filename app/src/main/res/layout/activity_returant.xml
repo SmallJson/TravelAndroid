@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/homeBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ll_content"
+    android:id="@+id/ll_root"
     >
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
