@@ -3,6 +3,8 @@ package bupt.com.travelandroid.util;
 import java.util.Map;
 
 import bupt.com.travelandroid.Bean.User;
+import bupt.com.travelandroid.Bean.response.RelationInfo;
+import bupt.com.travelandroid.Bean.response.RelationInterface;
 import bupt.com.travelandroid.Bean.response.UserInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,4 +29,9 @@ public interface ApiService {
     @POST("addRelation")
     public Call<Map<String, Object>> addRelation(@Field("uid") Integer uid, @Field("destPhone") String destPhone
                                                 ,@Field("relationType") Integer relationType);
+
+    //查询关系
+    @FormUrlEncoded
+    @POST("selectRelation")
+    public Call<RelationInterface> selectRelation(@Field("uid") Integer uid);
 }

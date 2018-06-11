@@ -298,4 +298,5 @@ public class TravelListActivity extends BaseActivity {
                }
         }
     }
+
 }

@@ -93,8 +93,7 @@
             android:layout_marginTop="89dp"
             >
         </bupt.com.travelandroid.DesiginView.MeItem>-->
-        <include layout="@layout/me_item_xingcheng">
-        </include>
+        <include layout="@layout/me_item_xingcheng"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -120,6 +119,16 @@
             android:layout_marginRight="5dp"
             android:background="#efefef"
             />
+        <include layout="@layout/me_item_parent">
+        </include>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#efefef"
+            />
+
         <include layout="@layout/me_item_setting">
         </include>
     </LinearLayout>

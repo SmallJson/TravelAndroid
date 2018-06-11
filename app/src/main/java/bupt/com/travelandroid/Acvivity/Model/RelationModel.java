@@ -1,8 +1,12 @@
 package bupt.com.travelandroid.Acvivity.Model;
 
+import java.util.ArrayList;
 import java.util.Map;
 
+import bupt.com.travelandroid.Acvivity.CallBack.IICallBack;
 import bupt.com.travelandroid.Acvivity.CallBack.IResultCallBack;
+import bupt.com.travelandroid.Bean.response.RelationInfo;
+import bupt.com.travelandroid.Bean.response.RelationInterface;
 import bupt.com.travelandroid.util.ApiService;
 import bupt.com.travelandroid.util.RetrofitUtil;
 import retrofit2.Call;
@@ -27,6 +31,30 @@ public class RelationModel {
             @Override
             public void onFailure(Call<Map<String, Object>> call, Throwable t) {
                 callBack.error("添加失败");
+            }
+        });
+    }
+
+    //查询亲属信息
+    public void selectRelation(Integer uid, final IICallBack callBack){
+        ApiService apiService = RetrofitUtil.getApiServiceGson();
+
+        Call<RelationInterface> call = apiService.selectRelation(uid);
+
+        call.enqueue(new Callback<RelationInterface>() {
+            @Override
+            public void onResponse(Call<RelationInterface> call, Response<RelationInterface> response) {
+                ArrayList<RelationInfo> list = response.body().getData();
+                if(list != null){
+                    callBack.getData(list);
+                }else{
+                    callBack.error(response.body().getMsg());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RelationInterface> call, Throwable t) {
+                callBack.error("加载亲属信息失败");
             }
         });
     }
