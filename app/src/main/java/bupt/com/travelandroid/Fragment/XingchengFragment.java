@@ -23,6 +23,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import bupt.com.travelandroid.Acvivity.MakingTraveActivity;
+import bupt.com.travelandroid.Acvivity.MeTravelActivity;
 import bupt.com.travelandroid.DesiginView.SlideViewPager;
 import bupt.com.travelandroid.R;
 
@@ -118,7 +119,8 @@ public class XingchengFragment extends Fragment {
         btMeTravel.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
+                //跳转到我的行程页面
+                getActivity().startActivity(new Intent(getActivity(), MeTravelActivity.class));
             }
         });
     }

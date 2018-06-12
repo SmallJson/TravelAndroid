@@ -35,6 +35,7 @@
         <activity android:name=".Acvivity.NoteActivity"></activity>
         <activity android:name=".Acvivity.AddRelationActivity"></activity>
         <activity android:name=".Acvivity.RelationActivity"></activity>
+        <activity android:name=".Acvivity.MeTravelActivity"></activity>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

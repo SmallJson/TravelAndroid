@@ -1,5 +1,7 @@
 package bupt.com.travelandroid.Acvivity.Model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -36,7 +38,7 @@ public class RelationModel {
     }
 
     //查询亲属信息
-    public void selectRelation(Integer uid, final IICallBack callBack){
+    public void selectRelation(Integer uid, final IICallBack<ArrayList<RelationInfo>> callBack){
         ApiService apiService = RetrofitUtil.getApiServiceGson();
 
         Call<RelationInterface> call = apiService.selectRelation(uid);

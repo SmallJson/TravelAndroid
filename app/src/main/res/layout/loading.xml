@@ -29,6 +29,7 @@
                 android:layout_marginTop="10dp"
                 android:textColor="#fff"
                 android:textSize="20sp"
+                android:id="@+id/tv_notice"
                 />
         </LinearLayout>
     </RelativeLayout>

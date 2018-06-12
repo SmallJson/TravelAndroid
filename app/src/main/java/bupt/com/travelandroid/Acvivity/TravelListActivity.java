@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +23,22 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import bupt.com.travelandroid.Acvivity.Adapter.RecyRelationAdapter;
+import bupt.com.travelandroid.Acvivity.CallBack.IICallBack;
+import bupt.com.travelandroid.Acvivity.CallBack.IResultCallBack;
+import bupt.com.travelandroid.Acvivity.IView.ITravelView;
+import bupt.com.travelandroid.Acvivity.Presenter.RelationPresenter;
+import bupt.com.travelandroid.Acvivity.Presenter.TravelPresenter;
 import bupt.com.travelandroid.Bean.TravelBean;
 import bupt.com.travelandroid.Bean.TravelDayBean;
 import bupt.com.travelandroid.Bean.TravelTotalBean;
+import bupt.com.travelandroid.Bean.response.RelationInfo;
 import bupt.com.travelandroid.DesiginView.DetailDayItem;
 import bupt.com.travelandroid.DesiginView.TrafficDayItem;
 import bupt.com.travelandroid.R;
+import bupt.com.travelandroid.util.ContanApplication;
 import bupt.com.travelandroid.util.DpUtil;
 
 /**
@@ -71,6 +83,16 @@ public class TravelListActivity extends BaseActivity {
     //母亲选择框
     CheckBox chMother;
 
+
+    public RelationPresenter relationPresenter;
+    public RecyRelationAdapter adapter;
+    public List<RelationInfo> relationInfoList ;
+
+    TravelPresenter travelPresenter = new TravelPresenter(mContext);
+
+    //过渡加载动画
+    View dialogView;
+    AlertDialog dialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +161,24 @@ public class TravelListActivity extends BaseActivity {
         initPopMenu();
         //初始话父母对话框
         initParentDialog();
+
+        //初始化Presenter
+        travelPresenter.setTravelView(new ITravelView() {
+            @Override
+            public TravelTotalBean getTravelTotalBean() {
+                //1.获取登录信息
+                ContanApplication application = (ContanApplication) getApplication();
+                Integer uid = application.getUid();
+                if(uid == null){
+                    //登录提示
+                    Snackbar.make(llRoot,"请登录",Snackbar.LENGTH_SHORT).show();
+                }
+                travelTotalBean.setFromUid(uid);
+                //2.获取选中对象的Phone
+                travelTotalBean.setPhone("18435134579");
+                return travelTotalBean;
+            }
+        });
     }
 
     @Override
@@ -265,8 +305,9 @@ public class TravelListActivity extends BaseActivity {
         btConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //将当前信息推送到服务单
-                //saveToServer():
+                //将当前信息推送到服务单、
+                //1.显示进度条信息
+                 saveToServer();
                 //isChecked
             }
         });
@@ -281,6 +322,7 @@ public class TravelListActivity extends BaseActivity {
         popMenu.setOutsideTouchable(true);
         popMenu.setBackgroundDrawable(new ColorDrawable());*/
     }
+
     public void showOrDismissDialogParent(){
         if(parentDialog != null){
                if(parentDialog.isShowing()){
@@ -296,6 +338,77 @@ public class TravelListActivity extends BaseActivity {
                    lp.height = LinearLayout.LayoutParams.WRAP_CONTENT;
                    parentDialog.getWindow().setAttributes(lp);
                }
+        }
+    }
+
+    //加载亲属数据需要用到
+    private void loadRelation(Integer uid){
+        //1.加载亲属数据
+        //1.1显示精度条
+        //1.2加载数据
+        relationPresenter.selectRelation(uid, new IICallBack<ArrayList<RelationInfo>>() {
+            @Override
+            public void getData(ArrayList<RelationInfo> response) {
+                //数据加载完成后，更新recyclerView
+                relationInfoList = response;
+            }
+            @Override
+            public void error(String msg) {
+                //失败提示
+                Snackbar.make(findViewById(R.id.ll_root),msg,Snackbar.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void saveToServer(){
+            //显示进度条信息
+            showDialog();
+            travelPresenter.saveTravel(new IResultCallBack() {
+                @Override
+                public void getData(Map<String, Object> response) {
+                    //取消进度条信息
+                    hideDialog();
+                    //取消分享对话框
+                    showOrDismissDialogParent();
+                    if( response.get("code").equals(200)){
+                        //成功插入
+                        Log.e("travelList","成功插入数据");
+                    }else if(response.get("code").equals(1)){
+                        //失败提示
+                        Snackbar.make(findViewById(R.id.ll_root),(String)response.get("msg"),Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void error(String msg) {
+                    //取消进度条信息
+                    hideDialog();
+                    //失败提示
+                    Snackbar.make(findViewById(R.id.ll_root),msg,Snackbar.LENGTH_SHORT).show();
+                }
+            });
+    }
+
+    //展示对话框
+    public void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        dialogView = LayoutInflater.from(mContext).inflate(R.layout.loading, null);
+        TextView tvNotice = (TextView) dialogView.findViewById(R.id.tv_notice);
+        tvNotice.setText("分享中");
+
+        builder.setView(dialogView);
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        //改变对话框的大小
+        WindowManager.LayoutParams  lp= dialog.getWindow().getAttributes();
+        lp.width=550;//定义宽度
+        lp.height=450;//定义高度
+        dialog.getWindow().setAttributes(lp);
+    }
+    public  void hideDialog(){
+        if(dialog != null && dialog.isShowing()){
+            dialog.dismiss();
         }
     }
 
