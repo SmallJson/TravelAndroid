@@ -8,6 +8,7 @@ import java.util.Map;
 import bupt.com.travelandroid.Acvivity.CallBack.IICallBack;
 import bupt.com.travelandroid.Acvivity.CallBack.IResultCallBack;
 import bupt.com.travelandroid.Bean.TravelTotalBean;
+import bupt.com.travelandroid.Bean.response.MessageInterface;
 import bupt.com.travelandroid.Bean.response.TravelInterface;
 import bupt.com.travelandroid.util.ApiService;
 import bupt.com.travelandroid.util.ContantsUtil;
@@ -23,26 +24,27 @@ import retrofit2.Response;
 public class TravelModel {
 
 
-    public  void addTravel(TravelTotalBean travelTotalBean, final IResultCallBack callBack){
+    public  void addTravel(TravelTotalBean travelTotalBean, final IICallBack<MessageInterface> callBack){
         ApiService apiService = RetrofitUtil.getApiServiceGson();
-        Call<Map<String, Object>> call = apiService.addTravel(travelTotalBean);
-        call.enqueue(new Callback<Map<String, Object>>() {
+        Call<MessageInterface> call = apiService.addTravel(travelTotalBean);
+        call.enqueue(new Callback<MessageInterface>() {
             @Override
-            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+            public void onResponse(Call<MessageInterface> call, Response<MessageInterface> response) {
                 if(response.body() == null ){
                     callBack.error("分享失败");
-                }else if (response.body().get("code") .equals(ContantsUtil.error_code)){
-                    callBack.error((String) response.body().get("msg"));
+                }else if (response.body().getCode() .equals(ContantsUtil.error_code)){
+                    callBack.error((String) response.body().getMsg());
                 }else{
                     callBack.getData(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+            public void onFailure(Call<MessageInterface> call, Throwable t) {
                 callBack.error("分享失败");
             }
         });
+
     }
 
     public void selectTravel(Map<String, Object> param, final IICallBack<List<TravelTotalBean>> callBack){
@@ -59,7 +61,8 @@ public class TravelModel {
             public void onResponse(Call<TravelInterface> call, Response<TravelInterface> response) {
                 Log.e("travel",response.body().toString());
                 if(response.body().getCode() == ContantsUtil.error_code){
-                    callBack.error(response.body().getMsg());
+                    callBack.error("读取是失败");
+                    Log.e("travelSelect",response.body().getMsg());
                 }else{
                     callBack.getData(response.body().getData());
                 }

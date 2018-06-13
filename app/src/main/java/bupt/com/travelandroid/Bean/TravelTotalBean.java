@@ -20,6 +20,41 @@ public class TravelTotalBean implements Serializable {
     //分享对象手机号码
     public String phone;
 
+
+    /**
+     * 查询行程服务器返回独有的字段
+     */
+    //分享人的头像
+    public  String fromAvator;
+    //分享人昵称
+    public String fromName;
+    //该行程的唯一id
+    public  Integer xingchengId;
+
+    public String getFromAvator() {
+        return fromAvator;
+    }
+
+    public void setFromAvator(String fromAvator) {
+        this.fromAvator = fromAvator;
+    }
+
+    public String getFromName() {
+        return fromName;
+    }
+
+    public void setFromName(String fromName) {
+        this.fromName = fromName;
+    }
+
+    public Integer getXingchengId() {
+        return xingchengId;
+    }
+
+    public void setXingchengId(Integer xingchengId) {
+        this.xingchengId = xingchengId;
+    }
+
     public Integer getFromUid() {
         return fromUid;
     }

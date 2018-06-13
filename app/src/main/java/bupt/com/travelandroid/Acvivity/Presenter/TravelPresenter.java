@@ -10,6 +10,7 @@ import bupt.com.travelandroid.Acvivity.CallBack.IResultCallBack;
 import bupt.com.travelandroid.Acvivity.IView.ITravelView;
 import bupt.com.travelandroid.Acvivity.Model.TravelModel;
 import bupt.com.travelandroid.Bean.TravelTotalBean;
+import bupt.com.travelandroid.Bean.response.MessageInterface;
 
 /**
  * Created by Administrator on 2018/6/12 0012.
@@ -30,7 +31,7 @@ public class TravelPresenter {
     }
 
     //保存旅游信息
-    public void saveTravel( IResultCallBack callBack){
+    public void saveTravel( IICallBack<MessageInterface> callBack){
         if(travelView!= null && travelView.getTravelTotalBean() !=null){
             travelModel.addTravel(travelView.getTravelTotalBean(), callBack);
         }

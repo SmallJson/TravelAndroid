@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,6 +16,8 @@ import android.widget.Button;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import javax.security.auth.login.LoginException;
 
 import bupt.com.travelandroid.Acvivity.CallBack.IResultCallBack;
 import bupt.com.travelandroid.Acvivity.IView.ILoginView;
@@ -124,13 +127,15 @@ public class LoginActivity extends  BaseActivity {
                     public void getData(Map<String, Object> response) {
                             User user = (User)response.get("user");
                             if( user != null){
+
+                                Log.e("login",user.toString());
                                 //1.将成功登录的账号密码，保存到SharePrefrence中
                                 SpUtil.putString(mContext, "account", etpPhone.getContent());
                                 SpUtil.putString(mContext, "password",etpPassword.getContent());
                                 //1.1保存全局id信息
                                 ContanApplication app = (ContanApplication)getApplication();
                                 app.setUid(user.getUid());
-                                hideDialog();
+                                app.setUser(user);
                                 //2.登录成功跳转
                                 mContext.startActivity(new Intent(mContext,HomeActivity.class));
                                 finish();
@@ -139,11 +144,13 @@ public class LoginActivity extends  BaseActivity {
                                 //登录失败提示
                                 Snackbar.make(findViewById(R.id.rl_root),(String)response.get("msg"),Snackbar.LENGTH_SHORT).show();
                             }
+                        hideDialog();
                     }
                     @Override
                     public void error(String msg) {
                         //登录失败提示
                         Snackbar.make(findViewById(R.id.rl_root),msg,Snackbar.LENGTH_SHORT).show();
+                        hideDialog();
                     }
                 });
             }

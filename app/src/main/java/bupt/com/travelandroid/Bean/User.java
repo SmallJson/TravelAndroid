@@ -9,6 +9,15 @@ public class User {
     String account;
     String password;
     String roleType;
+    UserInfo info;
+
+    public UserInfo getInfo() {
+        return info;
+    }
+
+    public void setInfo(UserInfo info) {
+        this.info = info;
+    }
 
     public Integer getUid() {
         return uid;
@@ -40,5 +49,15 @@ public class User {
 
     public void setRoleType(String roleType) {
         this.roleType = roleType;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid=" + uid +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", roleType='" + roleType + '\'' +
+                '}';
     }
 }

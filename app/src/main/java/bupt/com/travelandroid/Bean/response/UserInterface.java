@@ -7,9 +7,19 @@ import bupt.com.travelandroid.Bean.User;
  * 网络接口--登录返回的json数据对饮的实体
  */
 public class UserInterface {
-    public String code;
+    public Integer code;
     public String msg;
     public User data;
+
+
+    @Override
+    public String toString() {
+        return "UserInterface{" +
+                "code='" + code + '\'' +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 
     public User getData() {
         return data;
@@ -19,11 +29,11 @@ public class UserInterface {
         this.data = data;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 

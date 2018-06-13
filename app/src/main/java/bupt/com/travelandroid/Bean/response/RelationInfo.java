@@ -48,6 +48,7 @@ public class RelationInfo {
                 "phone='" + phone + '\'' +
                 ", name='" + name + '\'' +
                 ", avator='" + avator + '\'' +
+                ", relationType=" + relationType +
                 '}';
     }
 }

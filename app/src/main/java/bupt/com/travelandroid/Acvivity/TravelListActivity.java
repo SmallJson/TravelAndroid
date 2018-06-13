@@ -15,15 +15,19 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.security.auth.login.LoginException;
 
 import bupt.com.travelandroid.Acvivity.Adapter.RecyRelationAdapter;
 import bupt.com.travelandroid.Acvivity.CallBack.IICallBack;
@@ -34,11 +38,13 @@ import bupt.com.travelandroid.Acvivity.Presenter.TravelPresenter;
 import bupt.com.travelandroid.Bean.TravelBean;
 import bupt.com.travelandroid.Bean.TravelDayBean;
 import bupt.com.travelandroid.Bean.TravelTotalBean;
+import bupt.com.travelandroid.Bean.response.MessageInterface;
 import bupt.com.travelandroid.Bean.response.RelationInfo;
 import bupt.com.travelandroid.DesiginView.DetailDayItem;
 import bupt.com.travelandroid.DesiginView.TrafficDayItem;
 import bupt.com.travelandroid.R;
 import bupt.com.travelandroid.util.ContanApplication;
+import bupt.com.travelandroid.util.ContantsUtil;
 import bupt.com.travelandroid.util.DpUtil;
 
 /**
@@ -82,11 +88,11 @@ public class TravelListActivity extends BaseActivity {
     CheckBox cbFather;
     //母亲选择框
     CheckBox chMother;
-
-
-    public RelationPresenter relationPresenter;
-    public RecyRelationAdapter adapter;
+    ProgressBar progressBar;
+    LinearLayout llCheck;
+    public RelationPresenter relationPresenter = new RelationPresenter(mContext);
     public List<RelationInfo> relationInfoList ;
+    public List<CheckBox> checkBoxList = new ArrayList<CheckBox>();
 
     TravelPresenter travelPresenter = new TravelPresenter(mContext);
 
@@ -172,10 +178,28 @@ public class TravelListActivity extends BaseActivity {
                 if(uid == null){
                     //登录提示
                     Snackbar.make(llRoot,"请登录",Snackbar.LENGTH_SHORT).show();
+                    hideDialog();
+                    return  null;
+
                 }
                 travelTotalBean.setFromUid(uid);
                 //2.获取选中对象的Phone
-                travelTotalBean.setPhone("18435134579");
+                String targetPhone = "";
+                for(int i = 0;i< checkBoxList.size();i++){
+                    if(checkBoxList.get(i).isChecked()){
+                        targetPhone =targetPhone + relationInfoList.get(i).phone +",";
+                    }
+                }
+                if(TextUtils.isEmpty(targetPhone)){
+                    //登录提示
+                    Snackbar.make(llRoot,"请选择对象",Snackbar.LENGTH_SHORT).show();
+                    hideDialog();
+                    return  null;
+                }
+                //3.去掉可能存在的逗号
+                targetPhone = targetPhone.substring(0,targetPhone.length()-1);
+                Log.e("targetPhone",targetPhone);
+                travelTotalBean.setPhone(targetPhone);
                 return travelTotalBean;
             }
         });
@@ -290,8 +314,9 @@ public class TravelListActivity extends BaseActivity {
         //找到View上对应的空间信息
         tvAddParent = (TextView) viewShareParent.findViewById(R.id.tv_addParent);
         btCancle = (Button) viewShareParent.findViewById(R.id.bt_cancle);
-        cbFather = (CheckBox) viewShareParent.findViewById(R.id.cb_father);
-        chMother = (CheckBox) viewShareParent.findViewById(R.id.cb_mother);
+
+        progressBar = viewShareParent.findViewById(R.id.progressBar);
+        llCheck = viewShareParent.findViewById(R.id.ll_check);
 
         btCancle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -329,6 +354,14 @@ public class TravelListActivity extends BaseActivity {
                    parentDialog.dismiss();
              }else{
                    //parentPopWindow.showAtLocation(llRoot,Gravity.CENTER,0,0);
+                   //是否登录
+                   ContanApplication contanApplication = (ContanApplication) getApplication();
+                   Integer uid =  contanApplication.getUid();
+                   if(uid == null){
+                       Snackbar.make(llRoot,"请登录",Snackbar.LENGTH_SHORT).show();
+                       return;
+                   }
+                   loadRelation(uid);
                    parentDialog.show();
                    //改变对话框的大小
                    WindowManager.LayoutParams  lp= parentDialog.getWindow().getAttributes();
@@ -343,14 +376,39 @@ public class TravelListActivity extends BaseActivity {
 
     //加载亲属数据需要用到
     private void loadRelation(Integer uid){
+        //显示ProgessBasr
+        progressBar.setVisibility(View.VISIBLE);
+        llCheck.removeAllViews();
+        llCheck.setVisibility(View.INVISIBLE);
         //1.加载亲属数据
         //1.1显示精度条
         //1.2加载数据
         relationPresenter.selectRelation(uid, new IICallBack<ArrayList<RelationInfo>>() {
             @Override
             public void getData(ArrayList<RelationInfo> response) {
-                //数据加载完成后，更新recyclerView
+                //数据加载完成后，更新视图信息
                 relationInfoList = response;
+                Log.e("travelList",relationInfoList.toString());
+                for(int i = 0; i< relationInfoList.size(); i++){
+                    View view = LayoutInflater.from(mContext).inflate(R.layout.checkbox, llCheck, false);
+                    llCheck.addView(view);
+                    CheckBox box = (CheckBox) view;
+                    box.setChecked(false);
+                    if(relationInfoList.get(i).relationType == 1 ){
+                        box.setText("父亲");
+                    }else if(relationInfoList.get(i).relationType == 2){
+                        box.setText("母亲");
+                    }else if (relationInfoList.get(i).relationType == 3){
+                        box.setText("儿子:"+relationInfoList.get(i).name);
+                    }else if (relationInfoList.get(i).relationType ==4){
+                        box.setText("女儿:"+relationInfoList.get(i).name);
+                    }else{
+                        box.setText("其他:"+relationInfoList.get(i).name);
+                    }
+                    checkBoxList.add(box);
+                }
+                llCheck.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
             @Override
             public void error(String msg) {
@@ -363,19 +421,21 @@ public class TravelListActivity extends BaseActivity {
     public void saveToServer(){
             //显示进度条信息
             showDialog();
-            travelPresenter.saveTravel(new IResultCallBack() {
+            travelPresenter.saveTravel(new IICallBack<MessageInterface>() {
                 @Override
-                public void getData(Map<String, Object> response) {
+                public void getData(MessageInterface response) {
                     //取消进度条信息
                     hideDialog();
                     //取消分享对话框
                     showOrDismissDialogParent();
-                    if( response.get("code").equals(200)){
+                    Integer code = (Integer) response.getCode();
+                    if( code.equals(ContantsUtil.success_code)){
                         //成功插入
                         Log.e("travelList","成功插入数据");
-                    }else if(response.get("code").equals(1)){
+                        Snackbar.make(findViewById(R.id.ll_root),"分享成功",Snackbar.LENGTH_SHORT).show();
+                    }else if(code.equals(ContantsUtil.error_code)){
                         //失败提示
-                        Snackbar.make(findViewById(R.id.ll_root),(String)response.get("msg"),Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(R.id.ll_root),response.getMsg(),Snackbar.LENGTH_SHORT).show();
                     }
                 }
 

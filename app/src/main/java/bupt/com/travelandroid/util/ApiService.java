@@ -4,6 +4,9 @@ import java.util.Map;
 
 import bupt.com.travelandroid.Bean.TravelTotalBean;
 import bupt.com.travelandroid.Bean.User;
+import bupt.com.travelandroid.Bean.UserBean;
+import bupt.com.travelandroid.Bean.response.MessageInterface;
+import bupt.com.travelandroid.Bean.response.RegisterInterface;
 import bupt.com.travelandroid.Bean.response.RelationInfo;
 import bupt.com.travelandroid.Bean.response.RelationInterface;
 import bupt.com.travelandroid.Bean.response.TravelInterface;
@@ -27,6 +30,9 @@ public interface ApiService {
     public Call<UserInterface> login(@Field("account") String account
             , @Field("password") String password);
 
+    @POST("account/register")
+    public Call<RegisterInterface> register(@Body UserBean userBean);
+
     //添加关系
     @FormUrlEncoded
     @POST("addRelation")
@@ -40,7 +46,7 @@ public interface ApiService {
 
     //添加行程信息
     @POST("addTravel")
-    public Call<Map<String, Object>> addTravel(@Body TravelTotalBean travelTotalBean);
+    public Call<MessageInterface> addTravel(@Body TravelTotalBean travelTotalBean);
 
     //查询行程信息
     @FormUrlEncoded

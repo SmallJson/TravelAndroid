@@ -1,13 +1,19 @@
 package bupt.com.travelandroid.Acvivity.Model;
 
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import bupt.com.travelandroid.Acvivity.CallBack.IICallBack;
 import bupt.com.travelandroid.Acvivity.CallBack.IResultCallBack;
 import bupt.com.travelandroid.Bean.User;
+import bupt.com.travelandroid.Bean.UserBean;
+import bupt.com.travelandroid.Bean.response.RegisterInterface;
 import bupt.com.travelandroid.Bean.response.UserInterface;
 import bupt.com.travelandroid.util.ApiService;
+import bupt.com.travelandroid.util.ContantsUtil;
 import bupt.com.travelandroid.util.RetrofitUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +35,11 @@ public class AccountModel {
         call.enqueue(new Callback<UserInterface>() {
             @Override
             public void onResponse(Call<UserInterface> call, Response<UserInterface> response) {
+                Log.e("login",response.body().toString());
+                if(response.body().getCode().equals(ContantsUtil.error_code)){
+                    callBack.error(response.body().getMsg());
+                    return;
+                }
                 UserInterface userInterface = response.body();
                 Map<String ,Object> map = new HashMap<String, Object>();
                 map.put("user", userInterface.getData());
@@ -38,6 +49,23 @@ public class AccountModel {
             @Override
             public void onFailure(Call<UserInterface> call, Throwable t) {
                 callBack.error("登录失败");
+            }
+        });
+    }
+
+    public void registerAccount(UserBean userBean, final IICallBack<RegisterInterface> callBack){
+        ApiService apiService = RetrofitUtil.getApiServiceGson();
+        Call<RegisterInterface> call = apiService.register(userBean);
+        call.enqueue(new Callback<RegisterInterface>() {
+            @Override
+            public void onResponse(Call<RegisterInterface> call, Response<RegisterInterface> response) {
+                callBack.getData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<RegisterInterface> call, Throwable t) {
+                t.printStackTrace();
+                callBack.error("注册失败");
             }
         });
     }

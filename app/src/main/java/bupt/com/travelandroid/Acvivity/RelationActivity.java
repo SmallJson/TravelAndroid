@@ -19,6 +19,7 @@ import bupt.com.travelandroid.Bean.response.RelationInfo;
 import bupt.com.travelandroid.Fragment.Adapter.RecyMessageAdapter;
 import bupt.com.travelandroid.R;
 import bupt.com.travelandroid.util.ContanApplication;
+import bupt.com.travelandroid.util.SnackUtils;
 
 /**
  * Created by Administrator on 2018/6/11 0011.
@@ -89,6 +90,9 @@ public class RelationActivity extends  BaseActivity {
                 if(response != null){
                     relationInfoList.clear();
                     relationInfoList .addAll(response);
+                    if(relationInfoList.size() == 0){
+                        SnackUtils.showSnackShort(llRoot, "无亲属好友");
+                    }
                     Log.e("relation",relationInfoList.toString());
                     if(adapter == null){
                         adapter = new RecyRelationAdapter(mContext , relationInfoList);

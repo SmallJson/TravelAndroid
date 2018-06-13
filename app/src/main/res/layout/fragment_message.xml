@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/ll_root"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -22,10 +24,17 @@
             android:background="@drawable/circle_rectangle_white_inner"
             />
     </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
+
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rlv_message"
+        android:id="@+id/srl_reference"
         >
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rlv_message"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

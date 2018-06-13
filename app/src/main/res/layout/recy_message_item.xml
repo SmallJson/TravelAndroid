@@ -1,59 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="73dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    app:cardBackgroundColor="@color/homeBackground"
     >
-    <ImageView
-        android:layout_margin="10dp"
-        android:layout_width="51dp"
-        android:layout_height="51dp"
-        android:gravity="center"
-        android:background="@drawable/circle_rectangle_bule_inner"
-        android:id="@+id/iv_icon_left"
-        android:layout_centerVertical="true"
-        android:src="@drawable/smile"
-        android:padding="4dp"
-        />
     <RelativeLayout
-        android:layout_margin="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@id/iv_icon_left"
-        android:layout_centerVertical="true"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="73dp"
         >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="莫小刀"
-            android:id="@+id/tv_message_title"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:textColor="#101010"
+        <ImageView
+            android:layout_margin="10dp"
+            android:layout_width="51dp"
+            android:layout_height="51dp"
+            android:gravity="center"
+            android:background="@drawable/circle_rectangle_bule_inner"
+            android:id="@+id/iv_icon_left"
+            android:layout_centerVertical="true"
             />
-        <TextView
+        <RelativeLayout
+            android:layout_margin="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="20:33"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="9dp"
-            android:id="@+id/tv_message_time"
-            android:textColor="#9B9B9B"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="消息:简要内容"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="3dp"
-            android:id="@+id/tv_message_dsc"
-            android:layout_below="@id/tv_message_title"
-            android:layout_alignParentStart="true"
-            android:textColor="#9B9B9B"
-            />
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/iv_icon_left"
+            android:layout_centerVertical="true"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="莫小刀"
+                android:id="@+id/tv_message_title"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#101010"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="20:33"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="9dp"
+                android:id="@+id/tv_message_time"
+                android:textColor="#9B9B9B"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="消息:简要内容"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="3dp"
+                android:id="@+id/tv_message_dsc"
+                android:layout_below="@id/tv_message_title"
+                android:layout_alignParentStart="true"
+                android:textColor="#9B9B9B"
+                />
+        </RelativeLayout>
+
     </RelativeLayout>
 
-</RelativeLayout>
+</android.support.v7.widget.CardView>

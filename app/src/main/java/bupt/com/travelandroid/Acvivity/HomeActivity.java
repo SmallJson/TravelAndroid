@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationItemView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -38,7 +39,6 @@ public class HomeActivity extends  BaseActivity {
     private ShapeBadgeItem mShapeBadgeItem;
     private RelativeLayout llRoot;
     private ImageView ivParent;
-
 
     private final int xingcheng_fragment_index = 0;
     private final int message_fragment_index = 1;
@@ -167,7 +167,7 @@ public class HomeActivity extends  BaseActivity {
     //切换到指定的Fragment
     public void switchFragment(int postion){
         //如果当前fragment == 切换的fragment不做处理
-        if(curFragment!= fragmentList.get(postion)){
+          if(curFragment != fragmentList.get(postion)){
             //切换fragment未被添加
             if(!fragmentList.get(postion).isAdded()){
                 getSupportFragmentManager().beginTransaction().hide(curFragment)
