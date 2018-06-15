@@ -5,9 +5,8 @@ package bupt.com.travelandroid.util;
  * 保留android中使用的常量信息
  */
 public class ContantsUtil {
-        public static final String baseUrl = "http://123.206.50.85:8080/travel/";
-/*      public static final String baseUrl = "http://10.108.245.188:8080/";*/
-
+/*        public static final String baseUrl = "http://123.206.50.85:8080/travel/";*/
+        public static final String baseUrl = "http://10.108.245.188:8080/";
       public static final int error_code = -1;
       public static final int success_code =200;
 }

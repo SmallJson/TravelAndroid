@@ -56,6 +56,14 @@ public class MessageFragment extends Fragment {
         return mView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Fragment从不可见到可见的过程，需要调用消息加载函数
+/*        Log.e("onStart","loadMeesgae()");
+        loadMessage();*/
+    }
+
     public void initView(){
         srlReference = mView.findViewById(R.id.srl_reference);
         srlReference.setColorSchemeColors(getResources().getColor(R.color.mgreen));

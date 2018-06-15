@@ -350,7 +350,7 @@ public class TravelListActivity extends BaseActivity {
 
     public void showOrDismissDialogParent(){
         if(parentDialog != null){
-               if(parentDialog.isShowing()){
+            if(parentDialog.isShowing()){
                    parentDialog.dismiss();
              }else{
                    //parentPopWindow.showAtLocation(llRoot,Gravity.CENTER,0,0);
@@ -380,6 +380,8 @@ public class TravelListActivity extends BaseActivity {
         progressBar.setVisibility(View.VISIBLE);
         llCheck.removeAllViews();
         llCheck.setVisibility(View.INVISIBLE);
+        //清空checkBoxList的内容
+        checkBoxList.clear();
         //1.加载亲属数据
         //1.1显示精度条
         //1.2加载数据

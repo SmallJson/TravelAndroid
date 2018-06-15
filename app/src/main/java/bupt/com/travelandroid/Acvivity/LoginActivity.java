@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -127,15 +130,22 @@ public class LoginActivity extends  BaseActivity {
                     public void getData(Map<String, Object> response) {
                             User user = (User)response.get("user");
                             if( user != null){
-
                                 Log.e("login",user.toString());
                                 //1.将成功登录的账号密码，保存到SharePrefrence中
-                                SpUtil.putString(mContext, "account", etpPhone.getContent());
-                                SpUtil.putString(mContext, "password",etpPassword.getContent());
+                                String phone =  etpPhone.getContent();
+                                String password = etpPassword.getContent();
+
+                                SpUtil.putString(mContext, "account", phone);
+                                SpUtil.putString(mContext, "password",password);
+
                                 //1.1保存全局id信息
                                 ContanApplication app = (ContanApplication)getApplication();
                                 app.setUid(user.getUid());
                                 app.setUser(user);
+
+                                //1.2登录环信聊天
+                                loadIm(phone, password);
+
                                 //2.登录成功跳转
                                 mContext.startActivity(new Intent(mContext,HomeActivity.class));
                                 finish();
@@ -174,5 +184,30 @@ public class LoginActivity extends  BaseActivity {
         if(dialog != null && dialog.isShowing()){
             dialog.dismiss();
         }
+    }
+
+    //登录到环信IM
+    public void loadIm(String userName, String password){
+        Log.e("im",EMClient.getInstance().isLoggedInBefore()+"");
+        EMClient.getInstance().logout(true);
+        EMClient.getInstance().login(userName,password,new EMCallBack() {//回调
+            @Override
+            public void onSuccess() {
+                EMClient.getInstance().groupManager().loadAllGroups();
+                EMClient.getInstance().chatManager().loadAllConversations();
+                Log.e("im", "登录聊天服务器成功！");
+
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                Log.e("im", "waiting");
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                Log.d("im", message+code);
+            }
+        });
     }
 }

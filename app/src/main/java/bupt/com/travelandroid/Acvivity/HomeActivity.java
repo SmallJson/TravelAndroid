@@ -8,6 +8,7 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +17,18 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
+
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.ashokvarma.bottomnavigation.ShapeBadgeItem;
 import com.ashokvarma.bottomnavigation.TextBadgeItem;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import bupt.com.travelandroid.Fragment.MeFragment;
 import bupt.com.travelandroid.Fragment.MessageFragment;
@@ -85,8 +92,58 @@ public class HomeActivity extends  BaseActivity {
 
     @Override
     public void initData(){
-
+        //监听环信的消息事件
+        initIm();
     }
+    public  void  initIm(){
+        EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
+
+            @Override
+            public void onMessageReceived(List<EMMessage> messages) {
+                //收到消息
+                //解析消息
+                for (EMMessage node : messages) {
+                    final String from = node.getFrom();//发送者
+                    final EMMessage.Type type = node.getType();//消息类型
+                    switch (type) {
+                        case TXT://文本内容
+                            EMTextMessageBody body = (EMTextMessageBody) node.getBody();
+                            final String message = body.getMessage();
+                            String notic = from + "对我说：" + message;
+                            Log.d("home_im", notic);
+                            //将修改内容交给主线程来更新UI
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> messages) {
+                //收到透传消息
+            }
+
+            @Override
+            public void onMessageRead(List<EMMessage> messages) {
+                //收到已读回执
+            }
+
+            @Override
+            public void onMessageDelivered(List<EMMessage> message) {
+                //收到已送达回执
+            }
+            @Override
+            public void onMessageRecalled(List<EMMessage> messages) {
+                //消息被撤回
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage message, Object change) {
+                //消息状态变动
+            }
+        });
+    }
+
 
     public void initFragment(){
         fragmentList.add(new XingchengFragment());
@@ -208,6 +265,5 @@ public class HomeActivity extends  BaseActivity {
         popMenu.setOutsideTouchable(false);
         popMenu.setBackgroundDrawable(new ColorDrawable());
     }
-
 
 }
