@@ -22,11 +22,16 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.ashokvarma.bottomnavigation.ShapeBadgeItem;
 import com.ashokvarma.bottomnavigation.TextBadgeItem;
+import com.bumptech.glide.Glide;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMFileMessageBody;
+import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.util.ImageUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +40,8 @@ import bupt.com.travelandroid.Fragment.MessageFragment;
 import bupt.com.travelandroid.Fragment.XingchengFragment;
 import bupt.com.travelandroid.R;
 import bupt.com.travelandroid.util.DpUtil;
+
+import static com.hyphenate.chat.EMMessage.Type.TXT;
 
 /**
  * Created by Administrator on 2018/5/27 0027.
@@ -46,7 +53,6 @@ public class HomeActivity extends  BaseActivity {
     private ShapeBadgeItem mShapeBadgeItem;
     private RelativeLayout llRoot;
     private ImageView ivParent;
-
     private final int xingcheng_fragment_index = 0;
     private final int message_fragment_index = 1;
     private final int me_fragment_index = 2;
@@ -59,13 +65,16 @@ public class HomeActivity extends  BaseActivity {
     //菜单弹出框中添加父母的子控件
     LinearLayout llParent;
 
-
-
     //保存所有的Fragment
     ArrayList<Fragment> fragmentList = new ArrayList<>();
     //保留当前Activity显示的Fragment
     Fragment curFragment;
     FragmentTransaction fragmentTransaction;
+
+    /*保存环信的消息
+     */
+    public List<EMMessage> msgList = new ArrayList<>();
+    public MsgListener msgListener;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,52 +105,8 @@ public class HomeActivity extends  BaseActivity {
         initIm();
     }
     public  void  initIm(){
-        EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
-
-            @Override
-            public void onMessageReceived(List<EMMessage> messages) {
-                //收到消息
-                //解析消息
-                for (EMMessage node : messages) {
-                    final String from = node.getFrom();//发送者
-                    final EMMessage.Type type = node.getType();//消息类型
-                    switch (type) {
-                        case TXT://文本内容
-                            EMTextMessageBody body = (EMTextMessageBody) node.getBody();
-                            final String message = body.getMessage();
-                            String notic = from + "对我说：" + message;
-                            Log.d("home_im", notic);
-                            //将修改内容交给主线程来更新UI
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-            @Override
-            public void onCmdMessageReceived(List<EMMessage> messages) {
-                //收到透传消息
-            }
-
-            @Override
-            public void onMessageRead(List<EMMessage> messages) {
-                //收到已读回执
-            }
-
-            @Override
-            public void onMessageDelivered(List<EMMessage> message) {
-                //收到已送达回执
-            }
-            @Override
-            public void onMessageRecalled(List<EMMessage> messages) {
-                //消息被撤回
-            }
-
-            @Override
-            public void onMessageChanged(EMMessage message, Object change) {
-                //消息状态变动
-            }
-        });
+        msgListener = new MsgListener();
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
 
 
@@ -266,4 +231,43 @@ public class HomeActivity extends  BaseActivity {
         popMenu.setBackgroundDrawable(new ColorDrawable());
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("home","推出登录");
+        EMClient.getInstance().logout(true);
+        EMClient.getInstance().chatManager().removeMessageListener(msgListener);
+    }
+
+    class  MsgListener implements EMMessageListener{
+        @Override
+        public void onMessageReceived(List<EMMessage> messages) {
+            Log.e("msg","本次收到的消息大小"+messages.size());
+            msgList.addAll(messages);
+            Log.e("msgList","消息队列总大小"+msgList.size());
+        }
+        @Override
+        public void onCmdMessageReceived(List<EMMessage> messages) {
+            //收到透传消息
+        }
+
+        @Override
+        public void onMessageRead(List<EMMessage> messages) {
+            //收到已读回执
+        }
+
+        @Override
+        public void onMessageDelivered(List<EMMessage> message) {
+            //收到已送达回执
+        }
+        @Override
+        public void onMessageRecalled(List<EMMessage> messages) {
+            //消息被撤回
+        }
+
+        @Override
+        public void onMessageChanged(EMMessage message, Object change) {
+            //消息状态变动
+        }
+    }
 }
