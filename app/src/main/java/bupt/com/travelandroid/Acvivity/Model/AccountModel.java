@@ -35,7 +35,10 @@ public class AccountModel {
         call.enqueue(new Callback<UserInterface>() {
             @Override
             public void onResponse(Call<UserInterface> call, Response<UserInterface> response) {
-                Log.e("login",response.body().toString());
+                if(response.body() == null ){
+                    callBack.error("登录失败");
+                    return;
+                }
                 if(response.body().getCode().equals(ContantsUtil.error_code)){
                     callBack.error(response.body().getMsg());
                     return;
@@ -59,12 +62,23 @@ public class AccountModel {
         call.enqueue(new Callback<RegisterInterface>() {
             @Override
             public void onResponse(Call<RegisterInterface> call, Response<RegisterInterface> response) {
-                callBack.getData(response.body());
+                RegisterInterface registerInterface = response.body();
+                if(registerInterface == null){
+                    Log.e("retrofit","接口返回值null");
+                    callBack.error("注册失败");
+                    return;
+                }
+                if(registerInterface.getCode() == ContantsUtil.error_code){
+                    callBack.error(registerInterface.getMsg());
+                }else{
+                    callBack.getData(response.body());
+                }
             }
 
             @Override
             public void onFailure(Call<RegisterInterface> call, Throwable t) {
                 t.printStackTrace();
+                Log.e("retrofit","异常回调");
                 callBack.error("注册失败");
             }
         });

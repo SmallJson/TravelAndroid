@@ -155,6 +155,9 @@ public class EditTextPlus extends LinearLayout{
         }*/
         editText.setInputType(type);
     }
+    public  void setPasswordType(){
+        editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+    }
 
     /**
      * 设置输入框内容

@@ -41,7 +41,9 @@ public abstract class  BaseActivity extends AppCompatActivity {
 
     public   void initView(){
         mToolBar = (Toolbar) findViewById(R.id.tl_bar);
-        setSupportActionBar(mToolBar);
+        if(mToolBar != null){
+            setSupportActionBar(mToolBar);
+        }
     }
     public abstract  void initData();
 }

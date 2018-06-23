@@ -16,7 +16,6 @@ import bupt.com.travelandroid.Acvivity.Adapter.RecyRelationAdapter;
 import bupt.com.travelandroid.Acvivity.CallBack.IICallBack;
 import bupt.com.travelandroid.Acvivity.Presenter.RelationPresenter;
 import bupt.com.travelandroid.Bean.response.RelationInfo;
-import bupt.com.travelandroid.Fragment.Adapter.RecyMessageAdapter;
 import bupt.com.travelandroid.R;
 import bupt.com.travelandroid.util.ContanApplication;
 import bupt.com.travelandroid.util.SnackUtils;

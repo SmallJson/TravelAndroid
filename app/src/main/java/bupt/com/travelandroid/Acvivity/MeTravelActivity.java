@@ -1,5 +1,6 @@
 package bupt.com.travelandroid.Acvivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import java.util.Map;
 import bupt.com.travelandroid.Acvivity.Adapter.RecyRelationAdapter;
 import bupt.com.travelandroid.Acvivity.Adapter.RecyTravelAdapter;
 import bupt.com.travelandroid.Acvivity.CallBack.IICallBack;
+import bupt.com.travelandroid.Acvivity.CallBack.OnItemClickListenerRecy;
 import bupt.com.travelandroid.Acvivity.Presenter.TravelPresenter;
 import bupt.com.travelandroid.Bean.TravelTotalBean;
 import bupt.com.travelandroid.R;
@@ -122,8 +124,14 @@ public class MeTravelActivity extends  BaseActivity{
         }else{
             //2.用户登录状态，加载旅行信息
             Map<String, Object> param = new HashMap<String, Object>();
-            param.put("fromUid", uid);
-            param.put("type",type);
+            if(type == 1){
+                //查看我分享给别人的行程
+                param.put("fromUid", uid);
+            }else if(type == 2){
+                //查看别人分享给我的行程
+                param.put("toUid", uid);
+            }
+            param.put("type",1);
             travelPresenter.selectTravel(param, new IICallBack<List<TravelTotalBean>>() {
                 @Override
                 public void getData(List<TravelTotalBean> response) {
@@ -131,13 +139,7 @@ public class MeTravelActivity extends  BaseActivity{
                         if(response != null){
                             travelTotalBeanList.clear();
                             travelTotalBeanList.addAll(response);
-                            if(adapter == null){
-                                adapter= new RecyTravelAdapter(mContext, travelTotalBeanList);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-                                recyclerView.setAdapter(adapter);
-                            }else{
-                                adapter.notifyDataSetChanged();
-                            }
+                            initAdapter();
                         }
                     swipeRefreshLayout.setRefreshing(false);
                 }
@@ -147,6 +149,40 @@ public class MeTravelActivity extends  BaseActivity{
                     Snackbar.make(findViewById(R.id.ll_root),msg,Snackbar.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    public void initAdapter(){
+        if(adapter == null){
+            adapter= new RecyTravelAdapter(mContext, travelTotalBeanList);
+
+            adapter.setOnItenLickListener(new OnItemClickListenerRecy() {
+                @Override
+                public void onClick(int position) {
+                    if(type == 1){
+                        //我分享给别人行程页面，则跳转到预览页面
+                        int travelId= travelTotalBeanList.get(position).xingchengId;
+                        Intent intent = new Intent(mContext, PreviewAcitivity.class);
+                        intent.putExtra("travelId", travelId);
+                        mContext.startActivity(intent);
+                    }else if(type ==2){
+                        //别人分享给我行程页面，则跳转到动作页面
+                        int travelId= travelTotalBeanList.get(position).xingchengId;
+                        Intent intent = new Intent(mContext, CheckActivity.class);
+                        intent.putExtra("travelId", travelId);
+                        mContext.startActivity(intent);
+                    }
+                }
+                @Override
+                public void onLongClick(int position) {
+
+                }
+            });
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+            recyclerView.setAdapter(adapter);
+        }else{
+            adapter.notifyDataSetChanged();
         }
     }
 }

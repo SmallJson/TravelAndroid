@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/travel_summary_information"
+    android:background="@color/homeBackground"
+    >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:id="@+id/tv_travel_title"
+            android:text="北京之旅"
+            android:textSize="30sp"
+            android:textColor="#101010"
+            android:paddingTop="20dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:id="@+id/tv_destination_time"
+            android:text="7天/北京"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="#04C81A"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:id="@+id/tv_travel_time"
+            android:text="2018.9.1-2018.9.7"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="#04C81A"
+            android:paddingTop="10dp"
+            />
+</LinearLayout>

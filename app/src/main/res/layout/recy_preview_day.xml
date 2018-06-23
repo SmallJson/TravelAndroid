@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/homeBackground"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_day"
+        android:text="第1天"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fl_content"
+        android:orientation="vertical"
+        >
+        <include layout="@layout/traffic_details"
+            android:id="@+id/ll_traffic_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </include>
+
+        <include layout="@layout/attraction_details"
+            android:id="@+id/ll_place_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        </include>
+
+        <include layout="@layout/food_details"
+            android:id="@+id/ll_food_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include layout="@layout/hotel_details"
+            android:id="@+id/ll_hotel_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        </include>
+    </LinearLayout>
+
+</LinearLayout>

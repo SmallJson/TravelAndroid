@@ -1,6 +1,8 @@
 package bupt.com.travelandroid.Bean;
 
-public class UserInfo {
+import java.io.Serializable;
+
+public class UserInfo implements Serializable{
     Integer uid;
     //用户头像的url地址
     String avator;

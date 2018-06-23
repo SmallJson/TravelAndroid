@@ -3,8 +3,11 @@ package bupt.com.travelandroid.Acvivity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -35,11 +38,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import bupt.com.travelandroid.Acvivity.CallBack.IMessageListener;
+import bupt.com.travelandroid.Bean.IM.ImMessage;
 import bupt.com.travelandroid.Fragment.MeFragment;
 import bupt.com.travelandroid.Fragment.MessageFragment;
 import bupt.com.travelandroid.Fragment.XingchengFragment;
 import bupt.com.travelandroid.R;
 import bupt.com.travelandroid.util.DpUtil;
+import bupt.com.travelandroid.util.SnackUtils;
 
 import static com.hyphenate.chat.EMMessage.Type.TXT;
 
@@ -73,14 +79,72 @@ public class HomeActivity extends  BaseActivity {
 
     /*保存环信的消息
      */
-    public List<EMMessage> msgList = new ArrayList<>();
+    public List<ImMessage> msgList = new ArrayList<>();
     public MsgListener msgListener;
+
+    public IMessageListener msgFragmentListener;
+
+    public int messageCount = 0;
+    public boolean isFirstComming = true;
+    /**
+     * Handle处理异步消息
+     */
+    public  Handler mHandler =new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            int size = (int) msg.obj;
+            Log.e("messgeCount","before"+messageCount+"");
+            if(msgFragmentListener != null){
+                msgFragmentListener.messageArrival(msgList);
+                Log.e("handler","收到消息"+msgList.size());
+                Log.e("handle","进入listner不为null的条件，messageCount="+messageCount);
+            }else{
+/*                SnackUtils.showSnackShort(llRoot,"收到"+messageCount+"新消息");*/
+             /*   if(!isFirstComming){
+                    //在登录时，受到的未读消息数，包括了从Im服务器推送过来的离线消息数
+                    //在第一次进入该activity时，不纳入计算
+                    messageCount = messageCount + msgList.size();
+                }
+                isFirstComming =false;*/
+                messageCount = messageCount + msgList.size();
+                MessageFragment messageFragment = (MessageFragment) fragmentList.get(1);
+                messageFragment.setNewMessage(msgList);
+                Log.e("handle","进入listner为null的条件，messageCount="+messageCount);
+                Log.e("HomeAcitivity","离线消息"+msgList.size());
+            }
+            Log.e("messgeCount","after"+messageCount+"");
+            showTextBadgeItem();
+        }
+    };
+
+    public  void showTextBadgeItem(){
+        if(messageCount > 0){
+            mTextBadgeItem.show();
+            mTextBadgeItem.setText(messageCount+"");
+        }
+        else {
+            mTextBadgeItem.hide();
+        }
+    }
+
+    public  void  setmTextBadgeItem(Integer count){
+        messageCount = count;
+        showTextBadgeItem();
+    }
+    /**
+     * messageFragment注册监听事件
+     */
+    public void  setMessageArriveListener(IMessageListener listener){
+        this.msgFragmentListener = listener;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initView();
         initData();
+        Log.e("homeActivity","onCreate");
     }
 
     @Override
@@ -103,17 +167,19 @@ public class HomeActivity extends  BaseActivity {
     public void initData(){
         //监听环信的消息事件
         initIm();
+
     }
     public  void  initIm(){
         msgListener = new MsgListener();
+        Log.e("homeActivity","设置监听事件");
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
-
 
     public void initFragment(){
         fragmentList.add(new XingchengFragment());
 
         fragmentList.add(new MessageFragment());
+
         fragmentList.add(new MeFragment());
 
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -123,14 +189,26 @@ public class HomeActivity extends  BaseActivity {
     private void initNavigationBar(){
         mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
 
-     /*   mTextBadgeItem = new TextBadgeItem()
+        //获取登录时的未读消息总数
+        Intent intent = getIntent();
+        Integer unReadMsg = intent.getIntExtra("unReadMsg",-1);
+
+        //显示未读消息总数
+        if(unReadMsg == -1){
+            Log.e("homeActivity","读取未读消息数失败");
+        }else {
+            Log.e("homeActivity","读取未读消息"+unReadMsg);
+            messageCount = unReadMsg;
+        }
+
+        mTextBadgeItem = new TextBadgeItem()
                 .setBorderWidth(4)
                 .setBackgroundColorResource(R.color.colorAccent)
                 .setAnimationDuration(200)
-                .setText("3")
+                .setText(unReadMsg+"")
                 .setHideOnSelect(false);
-
-        mShapeBadgeItem = new ShapeBadgeItem()
+        showTextBadgeItem();
+   /*     mShapeBadgeItem = new ShapeBadgeItem()
                 .setShapeColorResource(R.color.colorPrimary)
                 .setGravity(Gravity.TOP | Gravity.END)
                 .setHideOnSelect(false);*/
@@ -150,7 +228,8 @@ public class HomeActivity extends  BaseActivity {
                         .setInactiveIcon(ContextCompat.getDrawable(mContext,R.drawable.xingcheng_nomal))
                         .setBadgeItem(mShapeBadgeItem))
                 .addItem(new BottomNavigationItem(R.drawable.message_active,"消息")
-                        .setInactiveIcon(ContextCompat.getDrawable(mContext,R.drawable.message_nomal)))
+                        .setInactiveIcon(ContextCompat.getDrawable(mContext,R.drawable.message_nomal))
+                        .setBadgeItem(mTextBadgeItem))
                 .addItem(new BottomNavigationItem(R.drawable.me_active,"我")
                         .setInactiveIcon(ContextCompat.getDrawable(mContext,R.drawable.me_nomal)))
                 .setFirstSelectedPosition(0)//设置默认选择的按钮
@@ -242,9 +321,39 @@ public class HomeActivity extends  BaseActivity {
     class  MsgListener implements EMMessageListener{
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
-            Log.e("msg","本次收到的消息大小"+messages.size());
-            msgList.addAll(messages);
-            Log.e("msgList","消息队列总大小"+msgList.size());
+            //对接收到的消息做一次信息提取操作
+            try {
+                for (int i = 0 ;i< messages.size();i++){
+                    ImMessage imMessage = new ImMessage();
+                    imMessage.setCreatTime(messages.get(i).getStringAttribute("creatTime",""));
+/*                   imMessage.set(messages.get(i).getFrom());*/
+                    imMessage.setType(messages.get(i).getIntAttribute("type",-1));
+                    imMessage.setImgUrl(messages.get(i).getStringAttribute("url"));
+                    imMessage.setFromAvator(messages.get(i).getStringAttribute("avator"));
+                    imMessage.setFromUid(messages.get(i).getIntAttribute("fromUid"));
+                    imMessage.setToUid(messages.get(i).getIntAttribute("toUid"));
+                    imMessage.setFromName(messages.get(i).getStringAttribute("fromName"));
+                    imMessage.setId(messages.get(i).getIntAttribute("id"));
+                    imMessage.setReadType(messages.get(i).getIntAttribute("read"));
+
+                    if(messages.get(i).getIntAttribute("type") == 0){
+                        EMTextMessageBody text = (EMTextMessageBody) messages.get(i).getBody();
+                        imMessage.setText(text.getMessage());
+                    }else{
+                        //图片和行程规划信息，就直接使用附加字段
+                        imMessage.setText(messages.get(i).getStringAttribute("text"));
+                    }
+
+                    Log.e("home",imMessage.toString());
+                    msgList.clear();
+                    msgList.add(imMessage);
+                }
+            }catch ( Exception e){
+                e.printStackTrace();
+            }
+            Message msg =Message.obtain();
+            msg.obj =messages.size();
+            mHandler.sendMessage(msg);
         }
         @Override
         public void onCmdMessageReceived(List<EMMessage> messages) {
@@ -270,4 +379,5 @@ public class HomeActivity extends  BaseActivity {
             //消息状态变动
         }
     }
+
 }

@@ -1,11 +1,14 @@
 package bupt.com.travelandroid.Acvivity;
 
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TimePicker;
 
 import java.io.Serializable;
 
@@ -37,6 +40,23 @@ public class TrafficActivity extends  BaseDetailActivity {
          super.initView();
          dioFlight = (DetailItemOne) findViewById(R.id.dio_flight);
          dioStartTime = (DetailItemOne) findViewById(R.id.dio_start_time);
+         dioStartTime.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 new TimePickerDialog(mContext, AlertDialog.THEME_HOLO_LIGHT,new TimePickerDialog.OnTimeSetListener() {
+
+                     @Override
+                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                         if (minute < 10){
+                             dioStartTime.setContent(hourOfDay+":"+"0"+minute);
+                         }else {
+                             dioStartTime.setContent(hourOfDay+":"+minute);
+                         }
+                     }
+                 }, 0, 0, true).show();
+             }
+         });
+
          dioStartPlace = (DetailItemOne) findViewById(R.id.dio_start_place);
          dioEndPlace = (DetailItemOne) findViewById(R.id.dio_end_place);
 

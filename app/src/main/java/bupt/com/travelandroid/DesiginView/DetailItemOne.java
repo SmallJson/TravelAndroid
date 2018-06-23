@@ -2,6 +2,7 @@ package bupt.com.travelandroid.DesiginView;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -72,5 +73,15 @@ public class DetailItemOne extends LinearLayout{
      */
     public void setContent(String content){
         etContent.setText(content);
+    }
+
+    public void setOnClickListener(OnClickListener clickListener){
+        //设置输入框是时间
+        etContent.setInputType(InputType.TYPE_DATETIME_VARIATION_DATE);
+        //输入框静止开启软键盘
+        etContent.setInputType(InputType.TYPE_NULL);
+        //禁止输入框输入
+        etContent.setFocusable(false);
+        etContent.setOnClickListener(clickListener);
     }
 }

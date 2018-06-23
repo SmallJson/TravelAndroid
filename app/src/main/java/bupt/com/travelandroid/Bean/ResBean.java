@@ -10,6 +10,24 @@ public class ResBean implements Serializable{
     public String  resName;
     public String  resAddress;
 
+    Integer complete;
+    Integer id;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getComplete() {
+        return complete;
+    }
+
+    public void setComplete(Integer complete) {
+        this.complete = complete;
+    }
+
     public String getResName() {
         return resName;
     }

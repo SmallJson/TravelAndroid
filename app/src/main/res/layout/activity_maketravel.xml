@@ -103,6 +103,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="24dp"
             android:textSize="18sp"
+
             />
         <EditText
             android:layout_width="200dp"
@@ -113,6 +114,7 @@
             android:hint="天数需要为整数"
             android:textColorHint="#cccccc"
             android:id="@+id/et_data"
+            android:inputType="number"
             />
     </LinearLayout>
     <LinearLayout

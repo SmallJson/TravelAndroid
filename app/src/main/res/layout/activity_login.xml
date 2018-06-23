@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -44,48 +45,56 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/abl_bar"
         />
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/ll_content"
-        android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_welcome"
-        android:layout_marginTop="38dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp"
+        android:id="@+id/scrollView"
         >
-        <bupt.com.travelandroid.DesiginView.EditTextPlus
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/ll_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:hint="请输入手机号"
-            app:drawable_left="@drawable/phone"
-            android:layout_marginTop="20dp"
-            android:id="@+id/etp_phone"
+            android:layout_below="@id/tv_welcome"
+            android:layout_marginTop="38dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
             >
-        </bupt.com.travelandroid.DesiginView.EditTextPlus>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#9B9B9B"
-            />
+            <bupt.com.travelandroid.DesiginView.EditTextPlus
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hint="请输入手机号"
+                app:drawable_left="@drawable/phone"
+                android:layout_marginTop="20dp"
+                android:id="@+id/etp_phone"
+                >
+            </bupt.com.travelandroid.DesiginView.EditTextPlus>
 
-        <bupt.com.travelandroid.DesiginView.EditTextPlus
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hint="请输入密码"
-            app:drawable_left="@drawable/password"
-            app:right_hint="忘记密码？"
-            android:layout_marginTop="20dp"
-            android:id="@+id/etp_password"
-            >
-        </bupt.com.travelandroid.DesiginView.EditTextPlus>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#9B9B9B"
-            />
-    </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#9B9B9B"
+                />
+
+            <bupt.com.travelandroid.DesiginView.EditTextPlus
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hint="请输入密码"
+                app:drawable_left="@drawable/password"
+                app:right_hint="忘记密码？"
+                android:layout_marginTop="20dp"
+                android:id="@+id/etp_password"
+                >
+            </bupt.com.travelandroid.DesiginView.EditTextPlus>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#9B9B9B"
+                />
+        </LinearLayout>
+    </ScrollView>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,7 +102,7 @@
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:background="@drawable/circle_rectangle_mgreen"
-        android:layout_below="@id/ll_content"
+        android:layout_below="@id/scrollView"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
         android:layout_marginTop="12dp"

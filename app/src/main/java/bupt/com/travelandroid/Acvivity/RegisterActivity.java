@@ -1,6 +1,7 @@
 package bupt.com.travelandroid.Acvivity;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -8,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -40,7 +42,6 @@ public class RegisterActivity extends BaseActivity {
     //过渡加载动画
     View dialogView;
     AlertDialog dialog;
-
     public ResiterPresenter registerPresenter = new ResiterPresenter(mContext);
 
     @Override
@@ -59,9 +60,13 @@ public class RegisterActivity extends BaseActivity {
         btNextStep = (Button) findViewById(R.id.bt_next_step);
         etpPhone = findViewById(R.id.etp_phone);
         etpPassword = findViewById(R.id.etp_password);
+        etpPassword.setPasswordType();
+
         etpAccount = findViewById(R.id.etp_account);
         rlRoot = findViewById(R.id.rl_root);
 
+      /*  autoScrllView();
+*/
         registerPresenter.setResiterView(new IResiterView() {
             @Override
             public UserBean getUserBean() {
@@ -73,6 +78,42 @@ public class RegisterActivity extends BaseActivity {
             }
         });
     }
+
+  /*  private int scrollToPosition=0;
+    public void autoScrllView(){
+        rlRoot.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect rect = new Rect();
+
+                //获取root在窗体的可视区域
+                rlRoot.getWindowVisibleDisplayFrame(rect);
+
+                //获取root在窗体的不可视区域高度(被遮挡的高度)
+                int rootInvisibleHeight = rlRoot.getRootView().getHeight() - rect.bottom;
+
+                //若不可视区域高度大于150，则键盘显示
+                if (rootInvisibleHeight > 150) {
+
+                    //获取scrollToView在窗体的坐标,location[0]为x坐标，location[1]为y坐标
+                    int[] location = new int[2];
+                    btNextStep.getLocationInWindow(location);
+
+                    //计算root滚动高度，使scrollToView在可见区域的底部
+                    int scrollHeight = (location[1] + btNextStep.getHeight()) - rect.bottom;
+
+                    //注意，scrollHeight是一个相对移动距离，而scrollToPosition是一个绝对移动距离
+                    scrollToPosition += scrollHeight;
+
+                } else {
+                    //键盘隐藏
+                    scrollToPosition = 0;
+                }
+                rlRoot.scrollTo(0, scrollToPosition);
+
+            }
+        });
+    }*/
 
     @Override
     public void initData() {
@@ -105,8 +146,11 @@ public class RegisterActivity extends BaseActivity {
                registerPresenter.regiser(new IICallBack<RegisterInterface>() {
                    @Override
                    public void getData(RegisterInterface response) {
-                       SnackUtils.showSnackShort(rlRoot, response.getMsg());
                        hideDialog();
+                       //注册成功之后，跳转到登录页面
+                       startActivity(new Intent(mContext, LoginActivity.class));
+                       finish();
+                       Toast.makeText(mContext,"注册成功",Toast.LENGTH_LONG).show();
                    }
                    @Override
                    public void error(String msg) {

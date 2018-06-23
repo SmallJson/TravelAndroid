@@ -30,6 +30,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mContext.startActivity(new Intent(mContext,RegisterActivity.class));
+                finish();
             }
         });
 
@@ -38,6 +39,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                finish();
             }
         });
     }

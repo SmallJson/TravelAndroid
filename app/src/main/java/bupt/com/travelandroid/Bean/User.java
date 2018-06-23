@@ -9,7 +9,17 @@ public class User {
     String account;
     String password;
     String roleType;
+    //当前用户登录时的未读消息数
+    Integer unReadMsg;
     UserInfo info;
+
+    public Integer getUnReadMsg() {
+        return unReadMsg;
+    }
+
+    public void setUnReadMsg(Integer unReadMsg) {
+        this.unReadMsg = unReadMsg;
+    }
 
     public UserInfo getInfo() {
         return info;

@@ -51,7 +51,6 @@ import bupt.com.travelandroid.util.DpUtil;
  * Created by Administrator on 2018/5/28 0028.
  * 第一天，第二天，第三天，第四天等页面
  */
-
 public class TravelListActivity extends BaseActivity {
     LinearLayout llContent;
     LinearLayout llRoot;
@@ -90,6 +89,8 @@ public class TravelListActivity extends BaseActivity {
     CheckBox chMother;
     ProgressBar progressBar;
     LinearLayout llCheck;
+
+
     public RelationPresenter relationPresenter = new RelationPresenter(mContext);
     public List<RelationInfo> relationInfoList ;
     public List<CheckBox> checkBoxList = new ArrayList<CheckBox>();
@@ -200,6 +201,7 @@ public class TravelListActivity extends BaseActivity {
                 targetPhone = targetPhone.substring(0,targetPhone.length()-1);
                 Log.e("targetPhone",targetPhone);
                 travelTotalBean.setPhone(targetPhone);
+
                 return travelTotalBean;
             }
         });
@@ -313,6 +315,12 @@ public class TravelListActivity extends BaseActivity {
         viewShareParent = LayoutInflater.from(mContext).inflate(R.layout.view_share_parent,null);
         //找到View上对应的空间信息
         tvAddParent = (TextView) viewShareParent.findViewById(R.id.tv_addParent);
+        tvAddParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, AddRelationActivity.class));
+            }
+        });
         btCancle = (Button) viewShareParent.findViewById(R.id.bt_cancle);
 
         progressBar = viewShareParent.findViewById(R.id.progressBar);

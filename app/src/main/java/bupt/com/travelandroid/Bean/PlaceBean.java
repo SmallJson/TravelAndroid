@@ -11,6 +11,24 @@ public class PlaceBean implements Serializable{
     String placeName;
     String playTime;
 
+    Integer complete;
+    Integer id;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getComplete() {
+        return complete;
+    }
+
+    public void setComplete(Integer complete) {
+        this.complete = complete;
+    }
+
     public String getPlaceName() {
         return placeName;
     }

@@ -28,12 +28,22 @@
         android:name=".util.ContanApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".Acvivity.MainActivity">
+           <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+
+        <activity android:name=".Acvivity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Acvivity.RegisterActivity"></activity>
+
+        <activity android:name=".Acvivity.RegisterActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            ></activity>
         <activity android:name=".Acvivity.LoginActivity"></activity>
         <activity android:name=".Acvivity.RegisterMessageActivity"></activity>
         <activity android:name=".Acvivity.FindPasswordActivity"></activity>
@@ -51,6 +61,11 @@
         <activity android:name=".Acvivity.AddRelationActivity"></activity>
         <activity android:name=".Acvivity.RelationActivity"></activity>
         <activity android:name=".Acvivity.MeTravelActivity"></activity>
+        <activity android:name=".Acvivity.PreviewAcitivity"></activity>
+        <activity android:name=".Acvivity.PictureActivity"></activity>
+        <activity android:name=".Acvivity.ChatActivity"></activity>
+        <activity android:name=".Acvivity.ImageActivity"></activity>
+        <activity android:name=".Acvivity.CheckActivity"></activity>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

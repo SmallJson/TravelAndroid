@@ -42,4 +42,20 @@ public class TravelPresenter {
         travelModel.selectTravel(param, callBack);
     }
 
+    /**
+     * 通过id查询旅游信息
+     * @param travelId
+     * @param callBack
+     */
+    public  void  selectTravelById(Integer travelId, IICallBack<TravelTotalBean> callBack){
+        travelModel.selectTravelById(travelId, callBack);
+    }
+
+    /**
+     * 修改旅游信息的完成度
+     */
+     public void updateTravelDetail(Integer id, Integer type, IICallBack<String> callBack){
+         travelModel.updateTravelDetaiComplete(id ,type, callBack);
+     }
+
 }

@@ -14,7 +14,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.w3c.dom.Text;
+
 import bupt.com.travelandroid.Acvivity.CallBack.IICallBack;
+import bupt.com.travelandroid.Acvivity.HomeActivity;
+import bupt.com.travelandroid.Acvivity.MainActivity;
 import bupt.com.travelandroid.Acvivity.Presenter.RelationPresenter;
 import bupt.com.travelandroid.Acvivity.RelationActivity;
 import bupt.com.travelandroid.Bean.User;
@@ -32,6 +36,8 @@ public class MeFragment extends Fragment {
     public TextView tvName;
     public TextView tvPhone;
     public ImageView ivHeader;
+
+    public TextView tvUnlogin;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,6 +51,20 @@ public class MeFragment extends Fragment {
     }
 
     public void initView(){
+
+        tvUnlogin = mView.findViewById(R.id.tv_unlogin);
+        tvUnlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //清空登录信息
+                ContanApplication app = (ContanApplication) getActivity().getApplication();
+                app.setUid(null);
+                app.setUser(null);
+                //跳转页面
+                startActivity(new Intent(getContext(), MainActivity.class));
+                getActivity().finish();
+            }
+        });
 
         rlParent = (RelativeLayout) mView.findViewById(R.id.rl_parent);
         rlParent.setOnClickListener(new View.OnClickListener() {

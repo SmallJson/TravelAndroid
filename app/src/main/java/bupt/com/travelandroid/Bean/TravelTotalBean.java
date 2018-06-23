@@ -17,7 +17,7 @@ public class TravelTotalBean implements Serializable {
     }
     //分享人id
     public Integer fromUid;
-    //分享对象手机号码
+    //分享目标手机号码
     public String phone;
 
 
@@ -30,6 +30,16 @@ public class TravelTotalBean implements Serializable {
     public String fromName;
     //该行程的唯一id
     public  Integer xingchengId;
+    //分享人的号码
+    public String sharePhone;
+
+    public String getSharePhone() {
+        return sharePhone;
+    }
+
+    public void setSharePhone(String sharePhone) {
+        this.sharePhone = sharePhone;
+    }
 
     public String getFromAvator() {
         return fromAvator;

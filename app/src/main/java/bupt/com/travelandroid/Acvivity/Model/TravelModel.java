@@ -9,7 +9,9 @@ import bupt.com.travelandroid.Acvivity.CallBack.IICallBack;
 import bupt.com.travelandroid.Acvivity.CallBack.IResultCallBack;
 import bupt.com.travelandroid.Bean.TravelTotalBean;
 import bupt.com.travelandroid.Bean.response.MessageInterface;
+import bupt.com.travelandroid.Bean.response.TravelIdInterface;
 import bupt.com.travelandroid.Bean.response.TravelInterface;
+import bupt.com.travelandroid.Bean.response.UpdateTravelDetailInterface;
 import bupt.com.travelandroid.util.ApiService;
 import bupt.com.travelandroid.util.ContantsUtil;
 import bupt.com.travelandroid.util.RetrofitUtil;
@@ -71,6 +73,55 @@ public class TravelModel {
             public void onFailure(Call<TravelInterface> call, Throwable t) {
                     callBack.error("读取失败");
                     t.printStackTrace();
+            }
+        });
+    }
+
+    public void selectTravelById(Integer travelId, final IICallBack<TravelTotalBean> callBack){
+        ApiService apiService = RetrofitUtil.getApiServiceGson();
+        Call<TravelIdInterface> call = apiService.selectTrvalByid(travelId);
+        call.enqueue(new Callback<TravelIdInterface>() {
+            @Override
+            public void onResponse(Call<TravelIdInterface> call, Response<TravelIdInterface> response) {
+                TravelIdInterface travelTotalBean = response.body();
+                if(travelTotalBean == null || travelTotalBean.getData() == null){
+                    callBack.error("预览失败");
+                }else{
+                    callBack.getData(travelTotalBean.getData());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TravelIdInterface> call, Throwable t) {
+                    callBack.error("网络异常");
+            }
+        });
+    }
+
+    public void updateTravelDetaiComplete(Integer id, Integer type, final IICallBack<String> callBack){
+        ApiService apiService = RetrofitUtil.getApiServiceGson();
+        Call<UpdateTravelDetailInterface> call = apiService.updateTravelDetail(id ,type);
+        call.enqueue(new Callback<UpdateTravelDetailInterface>() {
+            @Override
+            public void onResponse(Call<UpdateTravelDetailInterface> call, Response<UpdateTravelDetailInterface> response) {
+                UpdateTravelDetailInterface detailInterface = response.body();
+                if(detailInterface == null){
+                    Log.e("updateTravelDetai","接口返回数据为null1");
+                    callBack.error("网络错误");
+                    return;
+                }
+                if(detailInterface.getCode() == ContantsUtil.error_code){
+                    callBack.error(detailInterface.getMsg());
+                }else{
+                    callBack.getData(detailInterface.getMsg());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateTravelDetailInterface> call, Throwable t) {
+                Log.e("updateTravelDetai","异常回调");
+                t.printStackTrace();
+                callBack.error("网络错误");
             }
         });
     }

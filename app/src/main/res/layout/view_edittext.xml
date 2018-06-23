@@ -20,13 +20,14 @@
             />
         <EditText
             android:id="@+id/et_plus"
-            android:layout_width="226dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textSize="14sp"
             android:background="@null"
             android:textColor="@color/mgray"
             android:textColorHint="@color/mgray"
+            android:lines="1"
             />
     </LinearLayout>
 

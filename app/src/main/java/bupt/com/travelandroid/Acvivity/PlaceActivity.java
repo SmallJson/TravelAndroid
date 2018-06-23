@@ -1,8 +1,12 @@
 package bupt.com.travelandroid.Acvivity;
 
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.TimePicker;
 
 import java.io.Serializable;
 
@@ -31,6 +35,24 @@ public class PlaceActivity extends  BaseDetailActivity {
         super.initView();
         dioPlaceName = (DetailItemOne) findViewById(R.id.dio_place_name);
         dioPlayTime = (DetailItemOne) findViewById(R.id.dio_play_time);
+
+        dioPlayTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new TimePickerDialog(mContext, AlertDialog.THEME_HOLO_LIGHT,new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        if (minute < 10){
+                            dioPlayTime.setContent(hourOfDay+":"+"0"+minute);
+                        }else {
+                            dioPlayTime.setContent(hourOfDay+":"+minute);
+                        }
+                    }
+                }, 0, 0, true).show();
+            }
+        });
+
         //渲染数据
         if(placeBean != null){
             dioPlayTime.setContent(placeBean.getPlayTime());
@@ -53,4 +75,6 @@ public class PlaceActivity extends  BaseDetailActivity {
         placeBean.setPlayTime(dioPlaceName.getContent());
         return placeBean;
     }
+
+
 }

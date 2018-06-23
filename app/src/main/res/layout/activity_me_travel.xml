@@ -55,7 +55,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/left_button_circle_green"
             android:textColor="@color/mgreen"
-            android:text="本地行程"
+            android:text="我收获的行程"
             android:id="@+id/bt_local"
             />
         <Button
@@ -64,7 +64,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/right_button_circle_green"
             android:textColor="@color/mgreen"
-            android:text="分享行程"
+            android:text="我分享的行程"
             android:id="@+id/bt_share"
             />
     </LinearLayout>
