@@ -5,8 +5,10 @@ import android.app.Application;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
+import com.mob.MobSDK;
 
 import java.util.Iterator;
 import java.util.List;
@@ -32,8 +34,22 @@ public class ContanApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        initBaiduMap();
         initialEaseMob();
+    }
+
+    /**
+     * 初始社会分享功能
+     */
+    public void shareSDK(){
+        MobSDK.init(this);
+    }
+
+    /**
+     * 初始化百度地图信息
+     */
+    public void initBaiduMap(){
+        SDKInitializer.initialize(getApplicationContext());
     }
 
     //环信IM相关的初始化工作

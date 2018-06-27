@@ -28,8 +28,8 @@ public class MessagePresenter {
     }
 
     public  void setMessage(RequestBody fromUid, RequestBody dest, RequestBody type
-            , RequestBody text, MultipartBody.Part file, final IICallBack<String> callBack){
-        messageModel.sendMessage(fromUid, dest, type, text,file,callBack);
+            , RequestBody text, RequestBody placeId, MultipartBody.Part file, final IICallBack<String> callBack){
+        messageModel.sendMessage(fromUid, dest, type, text, placeId, file,callBack);
     }
 
     /**

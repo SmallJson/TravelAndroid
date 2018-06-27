@@ -19,6 +19,7 @@ import org.w3c.dom.Text;
 import bupt.com.travelandroid.Acvivity.CallBack.IICallBack;
 import bupt.com.travelandroid.Acvivity.HomeActivity;
 import bupt.com.travelandroid.Acvivity.MainActivity;
+import bupt.com.travelandroid.Acvivity.PhoneActivity;
 import bupt.com.travelandroid.Acvivity.Presenter.RelationPresenter;
 import bupt.com.travelandroid.Acvivity.RelationActivity;
 import bupt.com.travelandroid.Bean.User;
@@ -38,6 +39,9 @@ public class MeFragment extends Fragment {
     public ImageView ivHeader;
 
     public TextView tvUnlogin;
+
+    public RelativeLayout rlPhone;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,6 +78,14 @@ public class MeFragment extends Fragment {
             }
         });
 
+        rlPhone  = mView.findViewById(R.id.rl_phone);
+        rlPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), PhoneActivity.class));
+            }
+        });
+
         tvName = mView.findViewById(R.id.tv_name);
         tvPhone = mView.findViewById(R.id.tv_phone);
         ivHeader = mView.findViewById(R.id.iv_header);
@@ -86,6 +98,7 @@ public class MeFragment extends Fragment {
             tvPhone.setText("手机号:"+user.getAccount());
             //加载用户头像
             Glide.with(getActivity()).load(user.getInfo().getAvator()).into(ivHeader);
+            tvUnlogin.setText("注销登录");
         }else{
             //显示用户名称
             tvName.setText("未登录");
@@ -93,6 +106,7 @@ public class MeFragment extends Fragment {
             tvPhone.setText("手机号:"+"无");
             //加载用户头像
             Glide.with(getActivity()).load(R.drawable.header).into(ivHeader);
+            tvUnlogin.setText("登录");
         }
 
     }

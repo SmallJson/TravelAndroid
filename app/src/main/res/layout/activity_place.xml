@@ -67,6 +67,32 @@
         >
     </bupt.com.travelandroid.DesiginView.DetailItemOne>
 
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
+        android:background="@drawable/circle_rectangle_gray"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/add_gray"
+            android:layout_centerInParent="true"
+            android:id="@+id/iv_add"
+            />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/cancel"
+            android:layout_alignParentRight ="true"
+            android:visibility="visible"
+            android:id="@+id/iv_cancle"
+            />
+    </RelativeLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

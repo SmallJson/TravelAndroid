@@ -52,23 +52,30 @@ public class MessageModel {
 
 
     public void sendMessage(RequestBody fromUid, RequestBody dest, RequestBody type
-                            , RequestBody text, MultipartBody.Part file, final IICallBack<String> callBack){
+                            , RequestBody text, RequestBody placeId, MultipartBody.Part file, final IICallBack<String> callBack){
             ApiService apiService = RetrofitUtil.getApiServiceGson();
-            Call<MessageInterface> call = apiService.sendImageMessage(fromUid, dest, type, text, file);
+            Call<MessageInterface> call = apiService.sendImageMessage(fromUid, dest, type, text, placeId, file);
             call.enqueue(new Callback<MessageInterface>() {
                 @Override
                 public void onResponse(Call<MessageInterface> call, Response<MessageInterface> response) {
                     MessageInterface messageInterface = response.body();
+                    if(messageInterface == null){
+                        callBack.error("网络错误");
+                        Log.e("sendMessage","接口返回空");
+                        return;
+                    }
                     if(messageInterface.getCode() == ContantsUtil.error_code){
                         callBack.error(messageInterface.getMsg());
+                        Log.e("sendMessage",messageInterface.getMsg());
                     }else{
-                        callBack.getData(messageInterface.getMsg());
+                        callBack.getData(messageInterface.getData());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<MessageInterface> call, Throwable t) {
                         callBack.error("网络错误");
+                        Log.e("sendMessage","异常回调");
                         t.printStackTrace();
                 }
             });

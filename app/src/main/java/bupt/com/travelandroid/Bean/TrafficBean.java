@@ -19,6 +19,7 @@ public class TrafficBean implements Serializable {
 
     Integer complete;
     Integer id;
+
     public Integer getId() {
         return id;
     }

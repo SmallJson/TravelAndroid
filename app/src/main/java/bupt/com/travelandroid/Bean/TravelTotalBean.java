@@ -100,6 +100,10 @@ public class TravelTotalBean implements Serializable {
                 ", travelBean=" + travelBean +
                 ", fromUid=" + fromUid +
                 ", phone='" + phone + '\'' +
+                ", fromAvator='" + fromAvator + '\'' +
+                ", fromName='" + fromName + '\'' +
+                ", xingchengId=" + xingchengId +
+                ", sharePhone='" + sharePhone + '\'' +
                 '}';
     }
 }

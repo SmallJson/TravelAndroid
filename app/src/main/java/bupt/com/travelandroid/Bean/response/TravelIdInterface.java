@@ -30,4 +30,13 @@ public class TravelIdInterface {
     public void setData(TravelTotalBean data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "TravelIdInterface{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

@@ -2,6 +2,7 @@ package bupt.com.travelandroid.Acvivity;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -26,7 +27,7 @@ public class TrafficActivity extends  BaseDetailActivity {
     public DetailItemOne dioStartTime;
     public DetailItemOne dioStartPlace;
     public DetailItemOne dioEndPlace;
-    TrafficBean trafficBean = null;
+    TrafficBean trafficBean = new TrafficBean();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,13 +72,19 @@ public class TrafficActivity extends  BaseDetailActivity {
 
     @Override
     public void initData() {
-        trafficBean = (TrafficBean) getIntent().getSerializableExtra("data");
+
+        Intent intent = getIntent();
+        if(intent != null){
+            TrafficBean bean = (TrafficBean) getIntent().getSerializableExtra("data");
+            if(bean != null){
+                trafficBean = bean;
+            }
+        }
     }
 
     @Override
     public Serializable getResultData() {
         //获取EditText信息
-        TrafficBean trafficBean = new TrafficBean();
         //这里需要一个非空的条件判断
         if(TextUtils.isEmpty(dioFlight.getContent()) || TextUtils.isEmpty(dioStartTime.getContent())
                 || TextUtils.isEmpty(dioStartPlace.getContent()) || TextUtils.isEmpty(dioEndPlace.getContent())){

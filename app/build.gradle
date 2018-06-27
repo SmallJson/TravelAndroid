@@ -1,4 +1,16 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
+
+MobSDK {
+    appKey "268b3c63a525b"
+    appSecret "5aa98d27107c3f44b3612dc6183e6f2d"
+    ShareSDK {
+        devInfo {
+            Email {}
+            ShortMessage {}
+        }
+    }
+}
 
 android {
     compileSdkVersion 27
@@ -18,6 +30,12 @@ android {
         }
     }
     useLibrary 'org.apache.http.legacy'
+    sourceSets{
+        main{
+            jniLibs.srcDir 'libs'
+            //说明so的路径为该libs路径，关联所有地图SDK的so文件
+        }
+    }
 }
 
 dependencies {
@@ -41,4 +59,5 @@ dependencies {
     //Optional compile for GCM (Google Cloud Messaging).
     implementation 'com.google.android.gms:play-services-gcm:10.2.1'
     implementation files('libs/hyphenatechat_3.4.1.jar')
+    implementation files('libs/BaiduLBS_Android.jar')
 }

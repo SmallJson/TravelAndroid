@@ -1,8 +1,13 @@
 package bupt.com.travelandroid.Acvivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.io.Serializable;
 
@@ -18,7 +23,7 @@ public class HouseActivity extends  BaseDetailActivity {
     DetailItemOne dioHouseName;
     //酒店地址
     DetailItemOne dioHouseAddress;
-    HouseBean houseBean;
+    HouseBean houseBean = new HouseBean();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,22 +40,49 @@ public class HouseActivity extends  BaseDetailActivity {
         if(houseBean != null){
             dioHouseAddress.setContent(houseBean.getHouseAddress());
             dioHouseName.setContent(houseBean.getHouseName());
+            if(!TextUtils.isEmpty(houseBean.getImg())){
+                Glide.with(mContext).load(houseBean.getImg()).into(ivAdd);
+            }
         }
     }
 
     @Override
     public void initData() {
-        houseBean = (HouseBean) getIntent().getSerializableExtra("data");
+        Intent intent = getIntent();
+        if(intent != null){
+            HouseBean bean = (HouseBean) getIntent().getSerializableExtra("data");
+            if(bean !=null){
+                houseBean = bean;
+            }
+        }
     }
 
     @Override
     public Serializable getResultData() {
-        HouseBean houseBean = new HouseBean();
         if(TextUtils.isEmpty(dioHouseName.getContent())){
             return  null;
         }
         houseBean.setHouseName(TextUtils.isEmpty(dioHouseName.getContent())==true?"无":dioHouseName.getContent());
         houseBean.setHouseAddress(TextUtils.isEmpty(dioHouseAddress.getContent())==true?"无":dioHouseAddress.getContent());
         return houseBean;
+    }
+
+    @Override
+    protected void uploadError(String msg) {
+        Toast.makeText(mContext, msg,Toast.LENGTH_SHORT).show();
+        Log.e("resActivity",msg);
+    }
+
+    @Override
+    protected void upLoadSuccess(String url) {
+        Glide.with(mContext).load(url).into(ivAdd);
+        Log.e("HouseUri",url);
+        houseBean.setImg(url);
+    }
+
+    @Override
+    protected void clickCancle() {
+        houseBean.setImg("");
+        Glide.with(mContext).load(R.drawable.add_gray).into(ivAdd);
     }
 }

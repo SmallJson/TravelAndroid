@@ -25,7 +25,6 @@ import retrofit2.Response;
 
 public class TravelModel {
 
-
     public  void addTravel(TravelTotalBean travelTotalBean, final IICallBack<MessageInterface> callBack){
         ApiService apiService = RetrofitUtil.getApiServiceGson();
         Call<MessageInterface> call = apiService.addTravel(travelTotalBean);
@@ -84,6 +83,7 @@ public class TravelModel {
             @Override
             public void onResponse(Call<TravelIdInterface> call, Response<TravelIdInterface> response) {
                 TravelIdInterface travelTotalBean = response.body();
+                Log.e("travelId",travelTotalBean.toString());
                 if(travelTotalBean == null || travelTotalBean.getData() == null){
                     callBack.error("预览失败");
                 }else{

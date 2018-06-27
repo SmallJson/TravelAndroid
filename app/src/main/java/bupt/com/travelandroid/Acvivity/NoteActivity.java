@@ -35,4 +35,19 @@ public class NoteActivity extends  BaseDetailActivity {
     public Serializable getResultData() {
         return null;
     }
+
+    @Override
+    protected void uploadError(String msg) {
+
+    }
+
+    @Override
+    protected void upLoadSuccess(String url) {
+
+    }
+
+    @Override
+    protected void clickCancle() {
+
+    }
 }

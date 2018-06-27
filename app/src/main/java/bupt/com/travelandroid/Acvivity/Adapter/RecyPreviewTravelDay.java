@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.Map;
 
 import bupt.com.travelandroid.Bean.TravelBean;
@@ -68,11 +70,14 @@ public class RecyPreviewTravelDay extends RecyclerView.Adapter<RecyclerView.View
         RecyPreviewTravelDay.ViewHolder holder = (RecyPreviewTravelDay.ViewHolder) holder1;
         int day  = position ;
         TravelDayBean travelDayBean = map.get(day+"");
-        holder.flContent.setVisibility(View.VISIBLE);
-
+/*        holder.flContent.setVisibility(View.VISIBLE);*/
         if(travelDayBean == null){
             holder.tvDay.setText("第"+day+"天"+"(无行程安排)");
-            holder.flContent.setVisibility(View.GONE);
+/*            holder.flContent.setVisibility(View.GONE);*/
+            holder.llTraffic.setVisibility(View.GONE);
+            holder.llHotel.setVisibility(View.GONE);
+            holder.llFood.setVisibility(View.GONE);
+            holder.llPlacec.setVisibility(View.GONE);
         }else {
             holder.tvDay.setText("第"+day+"天");
             //渲染交通数据
@@ -85,10 +90,11 @@ public class RecyPreviewTravelDay extends RecyclerView.Adapter<RecyclerView.View
                         && TextUtils.isEmpty(travelDayBean.getTrafficBean().getEndPlace())
                         && TextUtils.isEmpty(travelDayBean.getTrafficBean().getStartTime())){
                     holder.llTraffic.setVisibility(View.GONE);
+                }else{
+                    holder.tvFlight.setText(travelDayBean.getTrafficBean().getFlightName());
+                    holder.tvStartPlace.setText(travelDayBean.getTrafficBean().getStartPlace());
+                    holder.tvEndPlace.setText(travelDayBean.getTrafficBean().getEndPlace());
                 }
-                holder.tvFlight.setText(travelDayBean.getTrafficBean().getFlightName());
-                holder.tvStartPlace.setText(travelDayBean.getTrafficBean().getStartPlace());
-                holder.tvEndPlace.setText(travelDayBean.getTrafficBean().getEndPlace());
             }
 
             //住宿
@@ -99,9 +105,16 @@ public class RecyPreviewTravelDay extends RecyclerView.Adapter<RecyclerView.View
                 if(TextUtils.isEmpty(travelDayBean.getHouseBean().getHouseName())
                         && TextUtils.isEmpty(travelDayBean.getHouseBean().getHouseAddress())){
                     holder.llHotel.setVisibility(View.GONE);
+                }else{
+                    holder.tvHotelName.setText(travelDayBean.getHouseBean().getHouseName());
+                    holder.tvHotelLocation.setText(travelDayBean.getHouseBean().getHouseAddress());
+                    if(!TextUtils.isEmpty(travelDayBean.getHouseBean().getImg())){
+                        Glide.with(mContext).load(travelDayBean.getHouseBean().getImg())
+                        .into(holder.ivHotelPic);
+                    }else{
+                        holder.ivHotelPic.setVisibility(View.GONE);
+                    }
                 }
-                holder.tvHotelName.setText(travelDayBean.getHouseBean().getHouseName());
-                holder.tvHotelLocation.setText(travelDayBean.getHouseBean().getHouseAddress());
             }
 
             //酒店
@@ -112,9 +125,16 @@ public class RecyPreviewTravelDay extends RecyclerView.Adapter<RecyclerView.View
                 if(TextUtils.isEmpty(travelDayBean.getResBean().getResName())
                         && TextUtils.isEmpty(travelDayBean.getResBean().getResAddress())){
                     holder.llFood.setVisibility(View.GONE);
+                }else{
+                    holder.tvResName.setText(travelDayBean.getResBean().getResName());
+                    holder.tvResLocation.setText(travelDayBean.getResBean().getResAddress());
+                    if(!TextUtils.isEmpty(travelDayBean.getResBean().getImg())){
+                        Glide.with(mContext).load(travelDayBean.getResBean().getImg())
+                        .into(holder.ivFoodPic);
+                    }else{
+                        holder.ivFoodPic.setVisibility(View.GONE);
+                    }
                 }
-                holder.tvResName.setText(travelDayBean.getResBean().getResName());
-                holder.tvResLocation.setText(travelDayBean.getResBean().getResAddress());
             }
 
             //景点
@@ -125,8 +145,15 @@ public class RecyPreviewTravelDay extends RecyclerView.Adapter<RecyclerView.View
                 if(TextUtils.isEmpty(travelDayBean.getPlaceBean().getPlaceName())
                         && TextUtils.isEmpty(travelDayBean.getPlaceBean().getPlayTime())){
                     holder.llPlacec.setVisibility(View.GONE);
+                }else{
+                    holder.tvPlaceName.setText(travelDayBean.getPlaceBean().getPlaceName());
+                    if(!TextUtils.isEmpty(travelDayBean.getPlaceBean().getImg())){
+                        Glide.with(mContext).load(travelDayBean.getPlaceBean().getImg())
+                                .into(holder.ivPlaceBg);
+                    }else{
+                        holder.ivPlaceBg.setVisibility(View.GONE);
+                    }
                 }
-                holder.tvPlaceName.setText(travelDayBean.getPlaceBean().getPlaceName());
             }
         }
     }
@@ -148,13 +175,14 @@ public class RecyPreviewTravelDay extends RecyclerView.Adapter<RecyclerView.View
     public static class ViewHolder extends RecyclerView.ViewHolder{
         //旅行天数
         TextView tvDay;
-        //每个行程记录的总布局
-        LinearLayout flContent;
+     /*   //每个行程记录的总布局
+        LinearLayout flContent;*/
         //交通内容
         public LinearLayout llTraffic;
         public TextView tvFlight;
         public TextView tvStartPlace;
         public TextView tvEndPlace;
+        public ImageView ivTraffic;
 
         //景点内容
         public LinearLayout llPlacec;
@@ -170,20 +198,21 @@ public class RecyPreviewTravelDay extends RecyclerView.Adapter<RecyclerView.View
         //酒店内容
         public LinearLayout llHotel;
         public TextView tvHotelName;
-        public ImageView tvHotelPic;
+        public ImageView ivHotelPic;
         public TextView tvHotelLocation;
 
         public ViewHolder(View itemView) {
             super(itemView);
             //天数
             tvDay = itemView.findViewById(R.id.tv_day);
-            flContent = itemView.findViewById(R.id.fl_content);
+      /*      flContent = itemView.findViewById(R.id.fl_content);*/
 
             //交通信息
             llTraffic = itemView.findViewById(R.id.ll_traffic_detail);
             tvFlight = itemView.findViewById(R.id.tv_flight);
             tvStartPlace = itemView.findViewById(R.id.tv_start_place);
             tvEndPlace = itemView.findViewById(R.id.tv_end_place);
+
 
             //景点内容
             llPlacec = itemView.findViewById(R.id.ll_place_detail);
@@ -199,7 +228,7 @@ public class RecyPreviewTravelDay extends RecyclerView.Adapter<RecyclerView.View
              //酒店内容
              llHotel = itemView.findViewById(R.id.ll_hotel_details);
              tvHotelName = itemView.findViewById(R.id.tv_hotel_name);
-             tvHotelPic =  itemView.findViewById(R.id.iv_hotel_picture);
+             ivHotelPic =  itemView.findViewById(R.id.iv_hotel_picture);
              tvHotelLocation = itemView.findViewById(R.id.iv_hotel_location);
         }
     }

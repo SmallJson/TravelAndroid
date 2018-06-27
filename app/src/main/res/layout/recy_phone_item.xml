@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/homeBackground"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            android:id="@+id/iv_header"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/guest_image" />
+
+        <RelativeLayout
+            android:id="@+id/friend_affairs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/iv_header">
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yuan"
+                android:textColor="#1296db"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_place_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_name"
+                android:text="天安门"
+                android:textColor="#2c2c2c"
+                android:textSize="20sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recy_phone"
+                android:layout_below="@id/tv_place_name"
+                android:layout_marginTop="10dp">
+            </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/friend_affairs"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:background="#d9d9d9" />
+ </RelativeLayout>
+
+

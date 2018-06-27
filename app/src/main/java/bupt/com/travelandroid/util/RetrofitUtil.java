@@ -14,6 +14,8 @@ public class RetrofitUtil {
     public static Retrofit retrofitRx;
 
     public static  ApiService apiService;
+
+    public static  BaiduApiService baiduApiService;
     public static ApiService getApiServiceGson(){
         if(apiService != null){
             return apiService;
@@ -27,4 +29,16 @@ public class RetrofitUtil {
         }
     }
 
+    public static BaiduApiService getBadiApiServiceGson(){
+        if(baiduApiService != null){
+            return baiduApiService;
+        }else {
+            retrofitGson = new Retrofit.Builder()
+                    .baseUrl(ContantsUtil.baiduUrl)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            baiduApiService = retrofitGson.create(BaiduApiService.class);
+            return baiduApiService;
+        }
+    }
 }

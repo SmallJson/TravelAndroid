@@ -335,7 +335,7 @@ public class HomeActivity extends  BaseActivity {
                     imMessage.setFromName(messages.get(i).getStringAttribute("fromName"));
                     imMessage.setId(messages.get(i).getIntAttribute("id"));
                     imMessage.setReadType(messages.get(i).getIntAttribute("read"));
-
+                    imMessage.setTravelId(messages.get(i).getIntAttribute("travelId"));
                     if(messages.get(i).getIntAttribute("type") == 0){
                         EMTextMessageBody text = (EMTextMessageBody) messages.get(i).getBody();
                         imMessage.setText(text.getMessage());

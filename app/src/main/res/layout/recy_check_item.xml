@@ -142,7 +142,6 @@
 
 
 
-    <!--Place-->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -150,64 +149,83 @@
         android:layout_marginTop="20dp"
         android:id="@+id/ll_place"
         >
-
+        <!--Place-->
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="9"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/circle_rectangle_day"
                 >
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="9"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
+                    android:background="@drawable/circle_rectangle_day"
                     >
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/place_grern"
-                        android:layout_marginLeft="16dp"
-                        android:layout_gravity="center_vertical"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:id="@+id/tv_place_name"
-                        android:text="天安门"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="20dp"
-                        android:textColor="@color/black"
-                        />
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        >
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/place_grern"
+                            android:layout_marginLeft="16dp"
+                            android:layout_gravity="center_vertical"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:id="@+id/tv_place_name"
+                            android:text="天安门"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="20dp"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp">
+                    <!--place_status-->
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/success"
+                        android:id="@+id/iv_place_status"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp">
-                <!--place_status-->
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/success"
-                    android:id="@+id/iv_place_status"
-                    android:layout_gravity="center_vertical"
-                    />
-            </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rec_pic"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                >
+            </android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
-    </LinearLayout>
+
+
+      </LinearLayout>
 
     <!--food-->
     <LinearLayout

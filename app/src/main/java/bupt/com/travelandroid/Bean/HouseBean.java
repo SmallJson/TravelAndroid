@@ -10,6 +10,17 @@ public class HouseBean implements Serializable{
     String houseName;
     String houseAddress;
 
+    //经典对应的推荐图片
+    String img;
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     Integer complete;
     Integer id;
     public Integer getId() {

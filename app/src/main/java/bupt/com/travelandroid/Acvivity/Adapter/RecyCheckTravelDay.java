@@ -1,7 +1,11 @@
 package bupt.com.travelandroid.Acvivity.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,15 +17,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
+import bupt.com.travelandroid.Acvivity.AttractionMapActivity;
 import bupt.com.travelandroid.Acvivity.CallBack.IICallBack;
+import bupt.com.travelandroid.Acvivity.CallBack.IRecyPicListener;
+import bupt.com.travelandroid.Acvivity.CallBack.OnItemClickListenerRecy;
+import bupt.com.travelandroid.Acvivity.CheckActivity;
 import bupt.com.travelandroid.Acvivity.Presenter.MessagePresenter;
 import bupt.com.travelandroid.Acvivity.Presenter.TravelPresenter;
+import bupt.com.travelandroid.Bean.PlaceBean;
 import bupt.com.travelandroid.Bean.TravelBean;
 import bupt.com.travelandroid.Bean.TravelDayBean;
 import bupt.com.travelandroid.R;
+import bupt.com.travelandroid.util.BitmapUtil;
 import bupt.com.travelandroid.util.ContantsUtil;
 import bupt.com.travelandroid.util.TimeUtil;
 import okhttp3.MediaType;
@@ -41,6 +56,18 @@ public class RecyCheckTravelDay extends RecyclerView.Adapter<RecyclerView.ViewHo
     Integer uid;
     //接收消息账号
     String destPhone;
+
+    RecyPicAdapter mAdapter;
+    //adapter是list集合才行
+    List<RecyPicAdapter> adapterList = new ArrayList<>();
+    List<List<String>> imageList = new ArrayList<>();
+
+
+    public OnItemClickListenerRecy listener;
+
+    public void setClickListener(OnItemClickListenerRecy listener){
+        this.listener = listener;
+    }
 
     public RecyCheckTravelDay(Context mContext, Map<String, TravelDayBean> map, Integer fromUid, String destPhone) {
         this.mContext = mContext;
@@ -67,7 +94,7 @@ public class RecyCheckTravelDay extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
-    private void processTravelDayViewHolder(RecyclerView.ViewHolder holder1 , int position){
+    private void processTravelDayViewHolder(RecyclerView.ViewHolder holder1 , final int position){
 
         final RecyCheckTravelDay.ViewHolder holder = (ViewHolder) holder1;
         int day  = position + 1 ;
@@ -90,28 +117,32 @@ public class RecyCheckTravelDay extends RecyclerView.Adapter<RecyclerView.ViewHo
                         && TextUtils.isEmpty(travelDayBean.getTrafficBean().getStartPlace())
                         && TextUtils.isEmpty(travelDayBean.getTrafficBean().getEndPlace())
                         && TextUtils.isEmpty(travelDayBean.getTrafficBean().getStartTime())){
+
                     holder.llTraffic.setVisibility(View.GONE);
-                }
 
-                holder.tvFlight.setText(travelDayBean.getTrafficBean().getFlightName());
-                holder.tvStartPlace.setText(travelDayBean.getTrafficBean().getStartPlace());
-                holder.tvEndPlace.setText(travelDayBean.getTrafficBean().getEndPlace());
+                }else{
 
-                if(travelDayBean.getTrafficBean().getComplete() == ContantsUtil.COMPLETE){
-                    holder.ivTrafficStatus.setBackground(mContext.getResources().getDrawable(R.drawable.complete));
-                }else if(travelDayBean.getTrafficBean().getComplete() == ContantsUtil.UNCOMPLETE){
-                    holder.ivTrafficStatus.setBackground(mContext.getResources().getDrawable(R.drawable.success));
-                }
-                //设置状态标识的点击事件
-                holder.ivTrafficStatus.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int complete = travelDayBean.getTrafficBean().getComplete();
-                        if(complete != ContantsUtil.COMPLETE){
-                            processImageClick(travelDayBean,holder.ivTrafficStatus, travelDayBean.getTrafficBean().getId(), ContantsUtil.TRAFFIC);
-                        }
+                    holder.tvFlight.setText(travelDayBean.getTrafficBean().getFlightName());
+                    holder.tvStartPlace.setText(travelDayBean.getTrafficBean().getStartPlace());
+                    holder.tvEndPlace.setText(travelDayBean.getTrafficBean().getEndPlace());
+
+                    if(travelDayBean.getTrafficBean().getComplete() == ContantsUtil.COMPLETE){
+                        holder.ivTrafficStatus.setBackground(mContext.getResources().getDrawable(R.drawable.complete));
+                    }else if(travelDayBean.getTrafficBean().getComplete() == ContantsUtil.UNCOMPLETE){
+                        holder.ivTrafficStatus.setBackground(mContext.getResources().getDrawable(R.drawable.success));
                     }
-                });
+                    //设置状态标识的点击事件
+                    holder.ivTrafficStatus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int complete = travelDayBean.getTrafficBean().getComplete();
+                            if(complete != ContantsUtil.COMPLETE){
+                                processImageClick(travelDayBean,holder.ivTrafficStatus, travelDayBean.getTrafficBean().getId(), ContantsUtil.TRAFFIC);
+                            }
+                        }
+                    });
+
+                }
             }
 
             //住宿
@@ -122,27 +153,32 @@ public class RecyCheckTravelDay extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 if(TextUtils.isEmpty(travelDayBean.getHouseBean().getHouseName())
                         && TextUtils.isEmpty(travelDayBean.getHouseBean().getHouseAddress())){
+
                     holder.llHotel.setVisibility(View.GONE);
-                }
 
-                holder.tvHotelName.setText(travelDayBean.getHouseBean().getHouseName());
+                }else{
 
-                if(travelDayBean.getHouseBean().getComplete() == ContantsUtil.COMPLETE){
-                    holder.ivHouseStatus.setBackground(mContext.getResources().getDrawable(R.drawable.complete));
-                }else if(travelDayBean.getHouseBean().getComplete() == ContantsUtil.UNCOMPLETE){
-                    holder.ivHouseStatus.setBackground(mContext.getResources().getDrawable(R.drawable.success));
-                }
+                    holder.tvHotelName.setText(travelDayBean.getHouseBean().getHouseName());
 
-                //设置状态标识的点击事件
-                holder.ivHouseStatus.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int complete = travelDayBean.getHouseBean().getComplete();
-                        if(complete != ContantsUtil.COMPLETE){
-                            processImageClick(travelDayBean,holder.ivHouseStatus, travelDayBean.getHouseBean().getId(), ContantsUtil.HOUSE);
-                        }
+                    if(travelDayBean.getHouseBean().getComplete() == ContantsUtil.COMPLETE){
+                        holder.ivHouseStatus.setBackground(mContext.getResources().getDrawable(R.drawable.complete));
+                    }else if(travelDayBean.getHouseBean().getComplete() == ContantsUtil.UNCOMPLETE){
+                        holder.ivHouseStatus.setBackground(mContext.getResources().getDrawable(R.drawable.success));
                     }
-                });
+
+                    //设置状态标识的点击事件
+                    holder.ivHouseStatus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int complete = travelDayBean.getHouseBean().getComplete();
+                            if(complete != ContantsUtil.COMPLETE){
+                                processImageClick(travelDayBean,holder.ivHouseStatus, travelDayBean.getHouseBean().getId(), ContantsUtil.HOUSE);
+                            }
+                        }
+                    });
+
+                }
+
             }
 
             //餐馆
@@ -154,25 +190,27 @@ public class RecyCheckTravelDay extends RecyclerView.Adapter<RecyclerView.ViewHo
                 if(TextUtils.isEmpty(travelDayBean.getResBean().getResName())
                         && TextUtils.isEmpty(travelDayBean.getResBean().getResAddress())){
                     holder.llFood.setVisibility(View.GONE);
-                }
+                }else{
 
-                holder.tvResName.setText(travelDayBean.getResBean().getResName());
+                    holder.tvResName.setText(travelDayBean.getResBean().getResName());
 
-                if(travelDayBean.getResBean().getComplete() == ContantsUtil.COMPLETE){
-                    holder.ivResStatus.setBackground(mContext.getResources().getDrawable(R.drawable.complete));
-                }else if(travelDayBean.getResBean().getComplete() == ContantsUtil.UNCOMPLETE){
-                    holder.ivResStatus.setBackground(mContext.getResources().getDrawable(R.drawable.success));
-                }
-                //设置状态标识的点击事件
-                holder.ivResStatus.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int complete = travelDayBean.getResBean().getComplete();
-                        if(complete != ContantsUtil.COMPLETE){
-                            processImageClick(travelDayBean,holder.ivResStatus, travelDayBean.getResBean().getId(), ContantsUtil.RES);
-                        }
+                    if(travelDayBean.getResBean().getComplete() == ContantsUtil.COMPLETE){
+                        holder.ivResStatus.setBackground(mContext.getResources().getDrawable(R.drawable.complete));
+                    }else if(travelDayBean.getResBean().getComplete() == ContantsUtil.UNCOMPLETE){
+                        holder.ivResStatus.setBackground(mContext.getResources().getDrawable(R.drawable.success));
                     }
-                });
+                    //设置状态标识的点击事件
+                    holder.ivResStatus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int complete = travelDayBean.getResBean().getComplete();
+                            if(complete != ContantsUtil.COMPLETE){
+                                processImageClick(travelDayBean,holder.ivResStatus, travelDayBean.getResBean().getId(), ContantsUtil.RES);
+                            }
+                        }
+                    });
+
+                }
             }
 
             //景点
@@ -184,26 +222,76 @@ public class RecyCheckTravelDay extends RecyclerView.Adapter<RecyclerView.ViewHo
                 if(TextUtils.isEmpty(travelDayBean.getPlaceBean().getPlaceName())
                         && TextUtils.isEmpty(travelDayBean.getPlaceBean().getPlayTime())){
                     holder.llPlacec.setVisibility(View.GONE);
-                }
+                }else{
+                    //1.设置点击事件跳转到景点地图信息
+                    holder.llPlacec.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, AttractionMapActivity.class);
+                            intent.putExtra("address", travelDayBean.getPlaceBean());
+                            mContext.startActivity(intent);
+                        }
+                    });
 
-                holder.tvPlaceName.setText(travelDayBean.getPlaceBean().getPlaceName());
 
-                if(travelDayBean.getPlaceBean().getComplete() == ContantsUtil.COMPLETE){
-                    holder.ivPlaceStatus.setBackground(mContext.getResources().getDrawable(R.drawable.complete));
-                }else if(travelDayBean.getPlaceBean().getComplete() == ContantsUtil.UNCOMPLETE){
-                    holder.ivPlaceStatus.setBackground(mContext.getResources().getDrawable(R.drawable.success));
-                }
+                    holder.tvPlaceName.setText(travelDayBean.getPlaceBean().getPlaceName());
+                    if(travelDayBean.getPlaceBean().getComplete() == ContantsUtil.COMPLETE){
+                        holder.ivPlaceStatus.setBackground(mContext.getResources().getDrawable(R.drawable.complete));
+                    }else if(travelDayBean.getPlaceBean().getComplete() == ContantsUtil.UNCOMPLETE){
+                        holder.ivPlaceStatus.setBackground(mContext.getResources().getDrawable(R.drawable.success));
+                    }
 
-                //设置状态标识的点击事件
-                holder.ivPlaceStatus.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int complete = travelDayBean.getPlaceBean().getComplete();
-                        if(complete != ContantsUtil.COMPLETE){
-                            processImageClick(travelDayBean,holder.ivPlaceStatus, travelDayBean.getPlaceBean().getId(), ContantsUtil.PLACE);
+                    /**
+                     * 2.设置拍照的RecyclerView代码
+                     */
+                    List<String> bimapList = new LinkedList<>();
+                    bimapList.add("");
+                    List<String> imageUrl = travelDayBean.getPlaceBean().getImageUrl();
+                    if(imageUrl!= null){
+                        for(int i = 0; i < imageUrl.size() ; i++){
+                            bimapList.add(bimapList.size() -1 ,imageUrl.get(i));
                         }
                     }
-                });
+                    //将当前bitmapList保存起来
+                    imageList.add(bimapList);
+
+                    mAdapter = new RecyPicAdapter(mContext,bimapList);
+                    adapterList.add(mAdapter);
+                    GridLayoutManager layoutManager = new GridLayoutManager(mContext, 3);
+                    ((ViewHolder) holder1).recPic.setLayoutManager(layoutManager);
+                    ((ViewHolder) holder1).recPic.setAdapter(mAdapter);
+                    mAdapter.setListener(new IRecyPicListener() {
+                        @Override
+                        public void clickCancle(int cur) {
+                            /*Toast.makeText(mContext,"取消图片",Toast.LENGTH_SHORT).show();*/
+                            imageList.get(position).remove(cur);
+                            adapterList.get(position).notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void clickAddImage() {
+                         /*   Toast.makeText(mContext,"添加图片",Toast.LENGTH_SHORT).show();*/
+                          /*  CheckActivity activity = (CheckActivity) mContext;
+                            activity.clickAddPicture();*/
+                            if(listener != null){
+                                listener.onClick(position+1);
+                            }
+                        }
+                    });
+
+                    //3.设置状态标识的点击事件
+                    holder.ivPlaceStatus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int complete = travelDayBean.getPlaceBean().getComplete();
+                            if(complete != ContantsUtil.COMPLETE){
+                                processImageClick(travelDayBean,holder.ivPlaceStatus, travelDayBean.getPlaceBean().getId(), ContantsUtil.PLACE);
+                            }
+                        }
+                    });
+
+                }
+
             }
         }
     }
@@ -229,6 +317,7 @@ public class RecyCheckTravelDay extends RecyclerView.Adapter<RecyclerView.ViewHo
         public LinearLayout llPlacec;
         public TextView tvPlaceName;
         public ImageView ivPlaceStatus;
+        public RecyclerView recPic;
 
         //餐馆内容
         public LinearLayout llFood;
@@ -256,6 +345,7 @@ public class RecyCheckTravelDay extends RecyclerView.Adapter<RecyclerView.ViewHo
             llPlacec = itemView.findViewById(R.id.ll_place);
             tvPlaceName = itemView.findViewById(R.id.tv_place_name);
             ivPlaceStatus = itemView.findViewById(R.id.iv_place_status);
+            recPic = itemView.findViewById(R.id.rec_pic);
 
             //餐馆内容
              llFood = itemView.findViewById(R.id.ll_food);
@@ -325,7 +415,7 @@ public class RecyCheckTravelDay extends RecyclerView.Adapter<RecyclerView.ViewHo
         //关于图片的文字描述
         RequestBody text = RequestBody.create(null, content);
 
-        messagePresenter.setMessage(fromUid, dest, type,text, null,new IICallBack<String>(){
+        messagePresenter.setMessage(fromUid, dest, type,text, null,null,new IICallBack<String>(){
             @Override
             public void getData(String response) {
                 Log.e("server_sucess",response);
@@ -338,5 +428,13 @@ public class RecyCheckTravelDay extends RecyclerView.Adapter<RecyclerView.ViewHo
                 Toast.makeText(mContext, "通知失败", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public List<String> getImageList(Integer postion) {
+        return imageList.get(postion);
+    }
+
+    public void notifyImageChange(int position){
+        adapterList.get(position).notifyDataSetChanged();
     }
 }

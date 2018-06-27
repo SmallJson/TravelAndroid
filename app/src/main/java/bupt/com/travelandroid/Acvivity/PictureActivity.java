@@ -166,7 +166,7 @@ public class PictureActivity extends BaseActivity {
          */
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
 
-        messagePresenter.setMessage(fromUid, dest, type,text, body,new IICallBack<String>(){
+        messagePresenter.setMessage(fromUid, dest, type,text,null, body,new IICallBack<String>(){
             @Override
             public void getData(String response) {
                 Log.e("server_sucess",response);
